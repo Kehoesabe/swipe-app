@@ -110,6 +110,7 @@ export default function AssessmentScreen() {
     });
 
     // Special debug logging for Q28→Q29→Q30→Q31 flow
+    const currentQuestionNumber = scoring.currentQuestionIndex + 1;
     if (currentQuestionNumber >= 28 && currentQuestionNumber <= 31) {
       console.log('🚨 CRITICAL Q28-Q31 FLOW DEBUG:', {
         currentQuestionNumber,
