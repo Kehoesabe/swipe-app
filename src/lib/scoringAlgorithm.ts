@@ -57,10 +57,14 @@ export class AssessmentScoring {
 
     this.responses.push(response);
     
-    // Only increment if we haven't reached the end
-    if (this.currentQuestionIndex < this.questions.length - 1) {
-      this.currentQuestionIndex++;
-    }
+    // DO NOT increment index here - only in moveToNextQuestion()
+    console.log('🔍 SUBMIT RESPONSE:', {
+      questionId,
+      direction,
+      responsesLength: this.responses.length,
+      currentIndex: this.currentQuestionIndex,
+      totalQuestions: this.questions.length
+    });
   }
 
   /**
@@ -74,15 +78,29 @@ export class AssessmentScoring {
   }
 
   /**
-   * Get next question
+   * Move to next question (only place where index should increment)
    */
-  getNextQuestion(): Question | null {
+  moveToNextQuestion(): Question | null {
     this.currentQuestionIndex++;
+    
+    console.log('🔍 MOVE TO NEXT QUESTION:', {
+      newIndex: this.currentQuestionIndex,
+      totalQuestions: this.questions.length,
+      isAtEnd: this.currentQuestionIndex >= this.questions.length
+    });
+    
     // Check bounds before returning
     if (this.currentQuestionIndex >= this.questions.length) {
-      return null;
+      return null; // Assessment complete
     }
     return this.questions[this.currentQuestionIndex];
+  }
+
+  /**
+   * Get next question (deprecated - use moveToNextQuestion)
+   */
+  getNextQuestion(): Question | null {
+    return this.moveToNextQuestion();
   }
 
   /**
@@ -105,16 +123,13 @@ export class AssessmentScoring {
    * Check if assessment is completed
    */
   isCompleted(): boolean {
-    const responsesComplete = this.responses.length >= this.questions.length;
-    const indexComplete = this.currentQuestionIndex >= this.questions.length;
-    const isCompleted = responsesComplete || indexComplete;
+    // Only check responses length - index can be out of sync
+    const isCompleted = this.responses.length >= this.questions.length;
     
     console.log('🔍 SCORING COMPLETION CHECK:', {
       responsesLength: this.responses.length,
       questionsLength: this.questions.length,
       currentIndex: this.currentQuestionIndex,
-      responsesComplete,
-      indexComplete,
       isCompleted
     });
     

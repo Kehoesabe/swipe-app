@@ -108,6 +108,18 @@ export default function AssessmentScreen() {
       isCompleted: isCompletedCheck,
       progress: progressData
     });
+
+    // Special debug logging for Q28→Q29→Q30→Q31 flow
+    if (currentQuestionNumber >= 28 && currentQuestionNumber <= 31) {
+      console.log('🚨 CRITICAL Q28-Q31 FLOW DEBUG:', {
+        currentQuestionNumber,
+        currentIndex: scoring.currentQuestionIndex,
+        responsesLength: scoring.responses.length,
+        totalQuestions: questions.length,
+        currentQuestionText: currentQuestion?.text?.substring(0, 50) + '...',
+        isCompleted: isCompletedCheck
+      });
+    }
     
     setIsCompleted(isCompletedCheck);
   }, [currentQuestion]);
@@ -303,7 +315,7 @@ export default function AssessmentScreen() {
       }),
     ]).start(() => {
       // Move to next question
-      const nextQuestion = scoring.getNextQuestion();
+      const nextQuestion = scoring.moveToNextQuestion();
       console.log('🔍 NEXT QUESTION DEBUG:', {
         nextQuestion,
         hasText: !!nextQuestion?.text,
