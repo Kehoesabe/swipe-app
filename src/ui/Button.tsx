@@ -1,12 +1,23 @@
 // src/ui/Button.tsx
 import React from 'react';
-import { Pressable, Text, StyleSheet, ViewStyle } from 'react-native';
+import { Pressable, Text, StyleSheet, ViewStyle, Platform } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { Colors, Spacing, Typography, Radius } from '../theme/tokens';
 
 type Props = { title: string; onPress: () => void; variant?: 'primary'|'secondary'; style?: ViewStyle; disabled?: boolean; };
 
 export default function Button({ title, onPress, variant='primary', style, disabled }: Props) {
+  const handlePress = () => {
+    // Haptics: only run on native, never on web
+    if (Platform.OS !== 'web' && typeof Haptics?.impactAsync === 'function') {
+      // Fire-and-forget; don't block UI, swallow if not available
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+    }
+
+    // Preserve existing behavior
+    onPress?.();
+  };
+
   return (
     <Pressable
       accessibilityRole="button"
@@ -17,7 +28,7 @@ export default function Button({ title, onPress, variant='primary', style, disab
         disabled && { opacity: 0.6 },
         style,
       ]}
-      onPress={() => { if (disabled) return; Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); onPress(); }}
+      onPress={() => { if (disabled) return; handlePress(); }}
     >
       <Text style={[styles.text, variant === 'primary' ? styles.textPrimary : styles.textSecondary]}>
         {title}
