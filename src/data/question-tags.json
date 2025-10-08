@@ -1,0 +1,31 @@
+{
+  "onboarding_easy": [
+    { "id": 5,  "rationale": "Simple, everyday choice (phones-down talk vs show); low stakes; clear trade-off; warms user up." },
+    { "id": 6,  "rationale": "Birthday scenario with obvious A/B; friendly framing; no self-criticism implied." },
+    { "id": 10, "rationale": "Concrete behavior (holding hands while watching a movie); easy yes/no; welcoming tone." },
+    { "id": 18, "rationale": "Small vs expensive gifts; low-pressure preference; quick comprehension." },
+    { "id": 21, "rationale": "Free hour choice (shared task vs relax); normal life scenario; clear trade-off." },
+    { "id": 32, "rationale": "Weekend preference (finish project vs wander); relatable, low-threat." },
+    { "id": 42, "rationale": "Vacation preference (new vs repeat); upbeat; no value-judgment." },
+    { "id": 47, "rationale": "Peace vs conflict avoidance; very common, gently worded; reduces anxiety early on." },
+    { "id": 17, "rationale": "Surprise gift vs quality time; classic relationship scenario; easy to answer." },
+    { "id": 9,  "rationale": "Long hug vs meaningful conversation; straightforward, concrete, non-threatening." }
+  ],
+  "high_signal": [
+    { "id": 27, "rationale": "Type1 diagnostic (integrity vs fun); strong discriminant for Reformer values." },
+    { "id": 45, "rationale": "Type8 directness vs softening; high loading on Challenger assertiveness." },
+    { "id": 46, "rationale": "Type8 leadership tendency; decisive take-charge behavior; strong signal." },
+    { "id": 49, "rationale": "Type5 need for alone time; clear introversion/resource-conservation marker." },
+    { "id": 39, "rationale": "Type6 planning/worst-case scanning; anxiety/security dynamic indicator." },
+    { "id": 44, "rationale": "Type7 variety seeking; options open vs single focus; classic Enthusiast cue." },
+    { "id": 56, "rationale": "Type7 reverse (few commitments vs many options); polarity check for 7-ish pattern." },
+    { "id": 52, "rationale": "Quality Presence reverse (feeling close while distracted); sharp contrast for presence needs." },
+    { "id": 53, "rationale": "Physical Closeness reverse (connection without touch); strong discriminator vs touch-centric users." },
+    { "id": 54, "rationale": "Supportive Actions reverse (words > deeds); flips Acts-vs-Words polarity cleanly." }
+  ],
+  "implementation_notes": {
+    "onboarding_placement": "Place ~5 of the onboarding_easy items in the first 8 positions (seeded randomizer will keep the feel).",
+    "high_signal_placement": "Distribute all high_signal across the mid + final third (avoid bunching).",
+    "flexibility": "These are proposals based on the current 57; feel free to swap 1–2 after you see early item stats."
+  }
+}

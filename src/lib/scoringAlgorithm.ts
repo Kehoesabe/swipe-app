@@ -149,8 +149,12 @@ export class AssessmentScoring {
 
   /**
    * Calculate scores for all categories
+   * FIXED: Added reverse item handling and normalization
    */
   calculateScores(): AssessmentScores {
+    console.log('\n🔍 SCORING DEBUG - Starting calculation');
+    console.log('Total responses:', this.responses.length);
+    
     const connectionStyles: Record<ConnectionStyle, number> = {
       verbalAffirmation: 0,
       qualityPresence: 0,
@@ -165,6 +169,39 @@ export class AssessmentScoring {
       type6: 0, type7: 0, type8: 0, type9: 0
     };
 
+    // Count questions per category for normalization
+    const connectionCounts: Record<ConnectionStyle, number> = {
+      verbalAffirmation: 0,
+      qualityPresence: 0,
+      physicalCloseness: 0,
+      supportiveActions: 0,
+      thoughtfulGestures: 0,
+      sharedGrowth: 0
+    };
+
+    const enneagramCounts: Record<EnneagramType, number> = {
+      type1: 0, type2: 0, type3: 0, type4: 0, type5: 0,
+      type6: 0, type7: 0, type8: 0, type9: 0
+    };
+
+    // Count answered questions per category (not total questions)
+    this.responses.forEach(response => {
+      const question = this.questions.find(q => q.id === response.questionId);
+      if (!question) return;
+      
+      if (question.framework === 'connection') {
+        const category = question.category as ConnectionStyle;
+        if (category in connectionCounts) {
+          connectionCounts[category]++;
+        }
+      } else if (question.framework === 'enneagram') {
+        const category = question.category as EnneagramType;
+        if (category in enneagramCounts) {
+          enneagramCounts[category]++;
+        }
+      }
+    });
+
     // Process each response
     this.responses.forEach(response => {
       const question = this.questions.find(q => q.id === response.questionId);
@@ -173,19 +210,43 @@ export class AssessmentScoring {
       // Get the weight for this direction
       const weight = question.weight[response.direction];
       
+      // FIXED: Handle reverse items correctly
+      const finalWeight = question.reverse ? -weight : weight;
+      
+      console.log(`Q${question.id} (${response.direction}): weight=${weight}, reverse=${question.reverse}, final=${finalWeight}`);
+      
       // Apply the weight to the appropriate category
       if (question.framework === 'connection') {
         const category = question.category as ConnectionStyle;
         if (category in connectionStyles) {
-          connectionStyles[category] += weight;
+          connectionStyles[category] += finalWeight;
         }
       } else if (question.framework === 'enneagram') {
         const category = question.category as EnneagramType;
         if (category in enneagramTypes) {
-          enneagramTypes[category] += weight;
+          enneagramTypes[category] += finalWeight;
         }
       }
     });
+
+    // FIXED: Normalize by answered question count (not total questions in category)
+    Object.keys(connectionStyles).forEach(category => {
+      const answeredCount = connectionCounts[category as ConnectionStyle];
+      if (answeredCount > 0) {
+        connectionStyles[category as ConnectionStyle] = connectionStyles[category as ConnectionStyle] / answeredCount;
+      }
+    });
+
+    Object.keys(enneagramTypes).forEach(category => {
+      const answeredCount = enneagramCounts[category as EnneagramType];
+      if (answeredCount > 0) {
+        enneagramTypes[category as EnneagramType] = enneagramTypes[category as EnneagramType] / answeredCount;
+      }
+    });
+
+    console.log('\n🎯 FINAL SCORES:');
+    console.log('Connection Styles:', connectionStyles);
+    console.log('Enneagram Types:', enneagramTypes);
 
     return { connectionStyles, enneagramTypes };
   }

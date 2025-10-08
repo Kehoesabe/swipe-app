@@ -59,7 +59,7 @@ export const questions: Question[] = [
     text: "I notice when my partner doesn't verbally express appreciation",
     framework: 'connection',
     category: 'verbalAffirmation',
-    reverse: false,
+    reverse: true,
     weight: { up: 2, right: 1, left: -1, down: -2 }
   },
   
@@ -85,7 +85,7 @@ export const questions: Question[] = [
     text: "I feel disconnected when my partner is distracted during our time together",
     framework: 'connection',
     category: 'qualityPresence',
-    reverse: false,
+    reverse: true,
     weight: { up: 2, right: 1, left: -1, down: -2 }
   },
   {
@@ -127,7 +127,7 @@ export const questions: Question[] = [
     text: "I miss physical closeness most when apart from my partner",
     framework: 'connection',
     category: 'physicalCloseness',
-    reverse: false,
+    reverse: true,
     weight: { up: 2, right: 1, left: -1, down: -2 }
   },
   
@@ -161,7 +161,7 @@ export const questions: Question[] = [
     text: "Reliability matters more to me than romantic gestures",
     framework: 'connection',
     category: 'supportiveActions',
-    reverse: false,
+    reverse: true,
     weight: { up: 2, right: 1, left: -1, down: -2 }
   },
   
@@ -187,7 +187,7 @@ export const questions: Question[] = [
     text: "I keep meaningful gifts because they represent our connection",
     framework: 'connection',
     category: 'thoughtfulGestures',
-    reverse: false,
+    reverse: true,
     weight: { up: 2, right: 1, left: -1, down: -2 }
   },
   {
@@ -229,7 +229,7 @@ export const questions: Question[] = [
     text: "Celebrating each other's progress matters deeply to me",
     framework: 'connection',
     category: 'sharedGrowth',
-    reverse: false,
+    reverse: true,
     weight: { up: 2, right: 1, left: -1, down: -2 }
   },
   
@@ -311,7 +311,7 @@ export const questions: Question[] = [
     text: "I adapt easily to situations to achieve the best outcome",
     framework: 'enneagram',
     category: 'type3',
-    reverse: false,
+    reverse: true,
     weight: { up: 2, right: 1, left: -1, down: -2 }
   },
   
@@ -337,7 +337,7 @@ export const questions: Question[] = [
     text: "I'm drawn to depth rather than surface-level connections",
     framework: 'enneagram',
     category: 'type4',
-    reverse: false,
+    reverse: true,
     weight: { up: 2, right: 1, left: -1, down: -2 }
   },
   
@@ -381,7 +381,7 @@ export const questions: Question[] = [
     text: "I seek reassurance when facing uncertainty",
     framework: 'enneagram',
     category: 'type6',
-    reverse: false,
+    reverse: true,
     weight: { up: 2, right: 1, left: -1, down: -2 }
   },
   
@@ -425,7 +425,7 @@ export const questions: Question[] = [
     text: "I naturally take charge and protect those I care about",
     framework: 'enneagram',
     category: 'type8',
-    reverse: false,
+    reverse: true,
     weight: { up: 2, right: 1, left: -1, down: -2 }
   },
   
@@ -456,7 +456,7 @@ export const questions: Question[] = [
     text: "I recharge by spending time alone, even when I love someone",
     framework: 'enneagram',
     category: 'type5',
-    reverse: false,
+    reverse: true,
     weight: { up: 2, right: 1, left: -1, down: -2 }
   },
   {
@@ -472,7 +472,7 @@ export const questions: Question[] = [
     text: "I downplay my own preferences to keep things comfortable",
     framework: 'enneagram',
     category: 'type9',
-    reverse: false,
+    reverse: true,
     weight: { up: 2, right: 1, left: -1, down: -2 }
   },
   
@@ -564,6 +564,6 @@ console.assert(
   "Should have 30 enneagram questions"
 );
 console.assert(
-  questions.filter(q => q.reverse).length === 6,
-  "Should have 6 reverse-coded questions"
+  questions.filter(q => q.reverse).length === 18,
+  "Should have 18 reverse-coded questions"
 );
