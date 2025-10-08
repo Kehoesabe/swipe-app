@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../navigation/types';
-import { Screen } from '../ui/Screen';
-import { Button } from '../ui/Button';
+import Screen from '../ui/Screen';
+import Button from '../ui/Button';
 import { Typography, Spacing } from '../theme';
 
 type LandingScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Landing'>;
