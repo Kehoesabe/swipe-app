@@ -17,10 +17,10 @@ import { questions } from '../data/questions';
 import { AssessmentScoring } from '../lib/scoringAlgorithm';
 import { SwipeDirection } from '../lib/scoringAlgorithm';
 import { debugLogger } from '../lib/debugLogger';
-import { Screen } from '../ui/Screen';
+import Screen from '../ui/Screen';
 import { ProgressBar } from '../components/ProgressBar';
 import { SwipeCard } from '../components/SwipeCard';
-import { Button } from '../ui/Button';
+import Button from '../ui/Button';
 import { Colors, Typography, Spacing } from '../theme';
 
 // TODO: Set to false before production deployment
