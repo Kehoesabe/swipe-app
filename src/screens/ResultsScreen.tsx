@@ -19,9 +19,23 @@ const isTablet = screenWidth > 768;
 const isDesktop = screenWidth > 1024;
 
 export default function ResultsScreen({ route }: ResultsScreenProps) {
+  console.log('🎯 ResultsScreen loaded with route params:', route.params);
   const { result } = route.params;
+  console.log('📊 Result data:', result);
   const navigation = useNavigation();
-  const { theme, isDark, toggleTheme } = useTheme();
+  const themeContext = useTheme();
+  
+  // Safety check for theme context
+  if (!themeContext) {
+    console.error('🚨 Theme context not available in ResultsScreen');
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000' }}>
+        <Text style={{ color: '#fff', fontSize: 18 }}>Loading theme...</Text>
+      </View>
+    );
+  }
+  
+  const { theme, isDark, toggleTheme } = themeContext;
 
   const handleShare = async () => {
     try {

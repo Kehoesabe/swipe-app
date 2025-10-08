@@ -371,7 +371,9 @@ export default function AssessmentScreen() {
 
   const handleCompletion = () => {
     try {
+      console.log('🎯 Starting assessment completion...');
       const result = scoring.generateResult();
+      console.log('✅ Result generated:', result);
       
       // Debug logging for final results
       if (TESTING_MODE) {
@@ -385,8 +387,11 @@ export default function AssessmentScreen() {
         );
       }
       
+      console.log('🚀 Navigating to Results screen with:', { result });
       navigation.navigate('Results', { result });
+      console.log('✅ Navigation call completed');
     } catch (error) {
+      console.error('🚨 Error in handleCompletion:', error);
       Alert.alert('Error', 'Failed to generate results. Please try again.');
     }
   };
