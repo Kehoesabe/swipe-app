@@ -542,41 +542,43 @@ export default function AssessmentScreen() {
       </View>
       </View>
 
-      {/* Accessibility Buttons for Multi-Input Support */}
-      <View style={styles.accessibilityButtons}>
-        <Button
-          title="YES!"
-          variant="secondary"
-          onPress={() => handleSwipe('up')}
-          disabled={!canAnswer}
-          accessibilityLabel="Strongly agree - swipe up"
-          style={styles.accessibilityButton}
-        />
-        <Button
-          title="Yes"
-          variant="secondary"
-          onPress={() => handleSwipe('right')}
-          disabled={!canAnswer}
-          accessibilityLabel="Agree - swipe right"
-          style={styles.accessibilityButton}
-        />
-        <Button
-          title="No"
-          variant="secondary"
-          onPress={() => handleSwipe('left')}
-          disabled={!canAnswer}
-          accessibilityLabel="Disagree - swipe left"
-          style={styles.accessibilityButton}
-        />
-        <Button
-          title="NO!"
-          variant="secondary"
-          onPress={() => handleSwipe('down')}
-          disabled={!canAnswer}
-          accessibilityLabel="Strongly disagree - swipe down"
-          style={styles.accessibilityButton}
-        />
-      </View>
+      {/* Accessibility Buttons - Only show during active swiping */}
+      {isSwiping && (
+        <View style={styles.accessibilityButtons}>
+          <Button
+            title="YES!"
+            variant="secondary"
+            onPress={() => handleSwipe('up')}
+            disabled={!canAnswer}
+            accessibilityLabel="Strongly agree - swipe up"
+            style={styles.accessibilityButton}
+          />
+          <Button
+            title="Yes"
+            variant="secondary"
+            onPress={() => handleSwipe('right')}
+            disabled={!canAnswer}
+            accessibilityLabel="Agree - swipe right"
+            style={styles.accessibilityButton}
+          />
+          <Button
+            title="No"
+            variant="secondary"
+            onPress={() => handleSwipe('left')}
+            disabled={!canAnswer}
+            accessibilityLabel="Disagree - swipe left"
+            style={styles.accessibilityButton}
+          />
+          <Button
+            title="NO!"
+            variant="secondary"
+            onPress={() => handleSwipe('down')}
+            disabled={!canAnswer}
+            accessibilityLabel="Strongly disagree - swipe down"
+            style={styles.accessibilityButton}
+          />
+        </View>
+      )}
 
       {/* Action Buttons */}
       <View style={styles.actions}>
