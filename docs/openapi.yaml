@@ -1,0 +1,323 @@
+openapi: 3.0.3
+info:
+  title: Swipe Type API
+  version: "1.0.0"
+  description: Public REST API for assessments, auth, reports, and payments.
+servers:
+  - url: https://api.swipetype.com
+    description: Production
+  - url: http://localhost:3000
+    description: Local Dev
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    AssessmentStartRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          nullable: true
+    AssessmentStartResponse:
+      type: object
+      required: [assessmentId, status, createdAt]
+      properties:
+        assessmentId: { type: string, format: uuid }
+        status: { type: string, enum: [started, completed, abandoned] }
+        createdAt: { type: string, format: date-time }
+    AssessmentAnswerRequest:
+      type: object
+      required: [assessmentId, questionId, direction, at]
+      properties:
+        assessmentId: { type: string, format: uuid }
+        questionId: { type: integer }
+        direction: { type: string, enum: [up, right, left, down] }
+        at: { type: string, format: date-time }
+    AssessmentSubmitRequest:
+      type: object
+      required: [assessmentId]
+      properties:
+        assessmentId: { type: string, format: uuid }
+    Scores:
+      type: object
+      additionalProperties:
+        type: number
+        format: float
+    AssessmentSubmitResponse:
+      type: object
+      required: [assessmentId, scores, topConnectionStyle, topEnneagramType, mappingKey, swipeType, completedAt]
+      properties:
+        assessmentId: { type: string, format: uuid }
+        scores: { $ref: '#/components/schemas/Scores' }
+        topConnectionStyle: { type: string }
+        topEnneagramType: { type: string }
+        mappingKey: { type: string }
+        swipeType: { type: string }
+        blend:
+          type: object
+          properties:
+            connectionStyle: { type: string, nullable: true }
+            enneagramType: { type: string, nullable: true }
+        completedAt: { type: string, format: date-time }
+    AuthSignupRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, format: password }
+        displayName: { type: string }
+    AuthLoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, format: password }
+    AuthLoginResponse:
+      type: object
+      properties:
+        accessToken: { type: string }
+        refreshToken: { type: string }
+        user:
+          type: object
+          properties:
+            id: { type: string, format: uuid }
+            email: { type: string, format: email }
+    Profile:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        email: { type: string, format: email }
+        displayName: { type: string, nullable: true }
+        avatarUrl: { type: string, nullable: true }
+        subscriptionTier: { type: string, enum: [free, premium, none] }
+    CheckoutRequest:
+      type: object
+      required: [assessmentId, productCode]
+      properties:
+        assessmentId: { type: string, format: uuid }
+        productCode: { type: string, enum: [premium_report] }
+    CheckoutResponse:
+      type: object
+      required: [checkoutUrl, sessionId]
+      properties:
+        checkoutUrl: { type: string, format: uri }
+        sessionId: { type: string }
+    Purchase:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        assessmentId: { type: string, format: uuid }
+        status:
+          type: string
+          enum: [init, requires_payment_method, requires_action, processing, paid, failed, refunded, canceled]
+        amountCents: { type: integer }
+        createdAt: { type: string, format: date-time }
+    FreeReportResponse:
+      type: object
+      properties:
+        assessmentId: { type: string, format: uuid }
+        status: { type: string, enum: [started, completed, abandoned] }
+        swipeType: { type: string }
+        freeSummary:
+          type: object
+          properties:
+            title: { type: string }
+            body: { type: string }
+        premiumUnlocked: { type: boolean }
+security:
+  - bearerAuth: []
+paths:
+  /api/assessment/start:
+    post:
+      summary: Initialize a new assessment
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AssessmentStartRequest' }
+      responses:
+        '200':
+          description: Assessment started
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AssessmentStartResponse' }
+  /api/assessment/answer:
+    post:
+      summary: Save a single answer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AssessmentAnswerRequest' }
+      responses:
+        '200':
+          description: Saved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  savedCount: { type: integer }
+  /api/assessment/submit:
+    post:
+      summary: Compute scores and finalize assessment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AssessmentSubmitRequest' }
+      responses:
+        '200':
+          description: Completed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AssessmentSubmitResponse' }
+        '400': { description: Not enough answers }
+        '409': { description: Already submitted }
+  /api/assessment/{id}:
+    get:
+      summary: Get assessment results (free layer unless unlocked)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Results
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/FreeReportResponse' }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+  /api/auth/signup:
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AuthSignupRequest' }
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId: { type: string, format: uuid }
+                  emailVerificationSent: { type: boolean }
+  /api/auth/login:
+    post:
+      summary: Log in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AuthLoginRequest' }
+      responses:
+        '200':
+          description: Tokens and user
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthLoginResponse' }
+  /api/auth/logout:
+    post:
+      summary: Logout (revoke session)
+      responses:
+        '204': { description: No Content }
+  /api/user/profile:
+    get:
+      summary: Get current user profile
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Profile
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Profile' }
+    patch:
+      summary: Update profile
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName: { type: string }
+                avatarUrl: { type: string }
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Profile' }
+  /api/payment/checkout:
+    post:
+      summary: Create Stripe Checkout session
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CheckoutRequest' }
+      responses:
+        '200':
+          description: URL and sessionId
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CheckoutResponse' }
+        '400': { description: Invalid assessment }
+        '409': { description: Already unlocked }
+  /api/payment/webhook:
+    post:
+      summary: Stripe webhook receiver
+      responses:
+        '200': { description: OK }
+        '400': { description: Signature/parse error }
+  /api/user/purchases:
+    get:
+      summary: List purchases
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Purchases
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Purchase' }
+  /api/report/free/{assessment_id}:
+    get:
+      summary: Free summary for an assessment
+      parameters:
+        - name: assessment_id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Free summary
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/FreeReportResponse' }
+  /api/report/premium/{assessment_id}:
+    get:
+      summary: Premium report (requires purchase)
+      parameters:
+        - name: assessment_id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Premium report payload
+        '403': { description: Not purchased }
