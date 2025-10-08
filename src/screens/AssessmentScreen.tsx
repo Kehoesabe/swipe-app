@@ -94,6 +94,8 @@ export default function AssessmentScreen() {
   const [validationWarning, setValidationWarning] = useState<string | null>(null);
   const [fastAnswerCount, setFastAnswerCount] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
+  const [showExitMessage, setShowExitMessage] = useState(false);
+  const [exitDirection, setExitDirection] = useState<SwipeDirection | null>(null);
 
   // Animation values
   const pan = useRef(new Animated.ValueXY()).current;
@@ -299,6 +301,10 @@ export default function AssessmentScreen() {
     // Disable answering temporarily (shorter cooldown)
     setCanAnswer(false);
     
+    // Show exit message during transition
+    setShowExitMessage(true);
+    setExitDirection(direction);
+    
     // Calculate exit direction with more dramatic movement
     const exitX = direction === 'left' ? -screenWidth * 1.5 : 
                  direction === 'right' ? screenWidth * 1.5 : 0;
@@ -323,6 +329,10 @@ export default function AssessmentScreen() {
         useNativeDriver: false,
       }),
     ]).start(() => {
+      // Hide exit message
+      setShowExitMessage(false);
+      setExitDirection(null);
+      
       // Move to next question
       const nextQuestion = scoring.moveToNextQuestion();
       console.log('🔍 NEXT QUESTION DEBUG:', {
@@ -543,111 +553,119 @@ export default function AssessmentScreen() {
       </View>
 
       {/* Ghost Answer Messages - Static messages attached to ghost cards */}
-      {isSwiping && (
+      {(isSwiping || showExitMessage) && (
         <View style={styles.ghostAnswerMessages}>
           {/* Strongly Agree - Purple message for UP swipe */}
-          <Animated.View 
-            style={[
-              styles.ghostMessage,
-              styles.ghostMessageUp,
-              {
-                transform: [
-                  { translateY: pan.y.interpolate({
-                    inputRange: [-200, 0],
-                    outputRange: [-30, 0],
+          {(!showExitMessage || exitDirection === 'up') && (
+            <Animated.View 
+              style={[
+                styles.ghostMessage,
+                styles.ghostMessageUp,
+                {
+                  transform: [
+                    { translateY: pan.y.interpolate({
+                      inputRange: [-200, 0],
+                      outputRange: [-30, 0],
+                      extrapolate: 'clamp'
+                    })}
+                  ],
+                  opacity: showExitMessage && exitDirection === 'up' ? 1 : pan.y.interpolate({
+                    inputRange: [-80, 0],
+                    outputRange: [1, 0],
                     extrapolate: 'clamp'
-                  })}
-                ],
-                opacity: pan.y.interpolate({
-                  inputRange: [-80, 0],
-                  outputRange: [1, 0],
-                  extrapolate: 'clamp'
-                })
-              }
-            ]}
-          >
-            <View style={styles.messageBoxPurple}>
-              <Text style={styles.messageTextPurple}>Strongly Agree!</Text>
-            </View>
-          </Animated.View>
+                  })
+                }
+              ]}
+            >
+              <View style={styles.messageBoxPurple}>
+                <Text style={styles.messageTextPurple}>Strongly Agree!</Text>
+              </View>
+            </Animated.View>
+          )}
           
           {/* Slightly Agree - Blue message for RIGHT swipe */}
-          <Animated.View 
-            style={[
-              styles.ghostMessage,
-              styles.ghostMessageRight,
-              {
-                transform: [
-                  { translateX: pan.x.interpolate({
-                    inputRange: [0, 200],
-                    outputRange: [0, 30],
+          {(!showExitMessage || exitDirection === 'right') && (
+            <Animated.View 
+              style={[
+                styles.ghostMessage,
+                styles.ghostMessageRight,
+                {
+                  transform: [
+                    { translateX: pan.x.interpolate({
+                      inputRange: [0, 200],
+                      outputRange: [0, 30],
+                      extrapolate: 'clamp'
+                    })}
+                  ],
+                  opacity: showExitMessage && exitDirection === 'right' ? 1 : pan.x.interpolate({
+                    inputRange: [0, 80],
+                    outputRange: [0, 1],
                     extrapolate: 'clamp'
-                  })}
-                ],
-                opacity: pan.x.interpolate({
-                  inputRange: [0, 80],
-                  outputRange: [0, 1],
-                  extrapolate: 'clamp'
-                })
-              }
-            ]}
-          >
-            <View style={styles.messageBoxBlue}>
-              <Text style={styles.messageTextBlue}>Slightly Agree</Text>
-            </View>
-          </Animated.View>
+                  })
+                }
+              ]}
+            >
+              <View style={styles.messageBoxBlue}>
+                <Text style={styles.messageTextBlue}>Slightly Agree</Text>
+              </View>
+            </Animated.View>
+          )}
           
           {/* Slightly Disagree - Orange message for LEFT swipe */}
-          <Animated.View 
-            style={[
-              styles.ghostMessage,
-              styles.ghostMessageLeft,
-              {
-                transform: [
-                  { translateX: pan.x.interpolate({
-                    inputRange: [-200, 0],
-                    outputRange: [-30, 0],
+          {(!showExitMessage || exitDirection === 'left') && (
+            <Animated.View 
+              style={[
+                styles.ghostMessage,
+                styles.ghostMessageLeft,
+                {
+                  transform: [
+                    { translateX: pan.x.interpolate({
+                      inputRange: [-200, 0],
+                      outputRange: [-30, 0],
+                      extrapolate: 'clamp'
+                    })}
+                  ],
+                  opacity: showExitMessage && exitDirection === 'left' ? 1 : pan.x.interpolate({
+                    inputRange: [-80, 0],
+                    outputRange: [1, 0],
                     extrapolate: 'clamp'
-                  })}
-                ],
-                opacity: pan.x.interpolate({
-                  inputRange: [-80, 0],
-                  outputRange: [1, 0],
-                  extrapolate: 'clamp'
-                })
-              }
-            ]}
-          >
-            <View style={styles.messageBoxOrange}>
-              <Text style={styles.messageTextOrange}>Slightly Disagree</Text>
-            </View>
-          </Animated.View>
+                  })
+                }
+              ]}
+            >
+              <View style={styles.messageBoxOrange}>
+                <Text style={styles.messageTextOrange}>Slightly Disagree</Text>
+              </View>
+            </Animated.View>
+          )}
           
           {/* Strongly Disagree - Red message for DOWN swipe */}
-          <Animated.View 
-            style={[
-              styles.ghostMessage,
-              styles.ghostMessageDown,
-              {
-                transform: [
-                  { translateY: pan.y.interpolate({
-                    inputRange: [0, 200],
-                    outputRange: [0, 30],
+          {(!showExitMessage || exitDirection === 'down') && (
+            <Animated.View 
+              style={[
+                styles.ghostMessage,
+                styles.ghostMessageDown,
+                {
+                  transform: [
+                    { translateY: pan.y.interpolate({
+                      inputRange: [0, 200],
+                      outputRange: [0, 30],
+                      extrapolate: 'clamp'
+                    })}
+                  ],
+                  opacity: showExitMessage && exitDirection === 'down' ? 1 : pan.y.interpolate({
+                    inputRange: [0, 80],
+                    outputRange: [0, 1],
                     extrapolate: 'clamp'
-                  })}
-                ],
-                opacity: pan.y.interpolate({
-                  inputRange: [0, 80],
-                  outputRange: [0, 1],
-                  extrapolate: 'clamp'
-                })
-              }
-            ]}
-          >
-            <View style={styles.messageBoxRed}>
-              <Text style={styles.messageTextRed}>Strongly Disagree!</Text>
-            </View>
-          </Animated.View>
+                  })
+                }
+              ]}
+            >
+              <View style={styles.messageBoxRed}>
+                <Text style={styles.messageTextRed}>Strongly Disagree!</Text>
+              </View>
+            </Animated.View>
+          )}
         </View>
       )}
 
