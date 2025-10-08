@@ -1,299 +1,261 @@
 /**
- * SwipeCard Component
- * 
- * A reusable card component for displaying questions and collecting swipe responses.
- * Designed for the Swipe Platform MVP.
+ * SwipeCard Component - Core assessment interaction
+ * Supports swipe, keyboard, and button inputs with haptic feedback
  */
 
-import React, { useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  PanResponder,
+import React, { useRef, useEffect } from 'react';
+import { 
+  View, 
+  Text, 
   Animated,
   Dimensions,
-  TouchableOpacity,
-  Image,
-  Linking
+  Vibration
 } from 'react-native';
-import { Question } from '@/data/content';
-import { SwipeResult } from '@/types/profile';
-import { Colors, Spacing } from '@/constants';
+import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import { Colors, Typography, Spacing, Radii } from '../../theme';
 
-export { SwipeResult };
-
-// Get screen width safely (for testing compatibility)
-const getScreenWidth = () => {
-  try {
-    return Dimensions.get('window').width;
-  } catch {
-    return 375; // Default mobile width for testing
-  }
-};
-
-const screenWidth = getScreenWidth();
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const SWIPE_THRESHOLD = 100;
 
-export interface SwipeCardProps {
-  question: Question;
-  onSwipe: (result: SwipeResult) => void;
-  style?: any;
+export type SwipeDirection = 'up' | 'down' | 'left' | 'right';
+
+interface SwipeCardProps {
+  children: React.ReactNode;
+  onSwipe: (direction: SwipeDirection) => void;
+  disabled?: boolean;
+  testID?: string;
 }
 
-export const SwipeCard: React.FC<SwipeCardProps> = ({ question, onSwipe, style }) => {
-  const [isAnimating, setIsAnimating] = useState(false);
-  const pan = useRef(new Animated.ValueXY()).current;
+export const SwipeCard: React.FC<SwipeCardProps> = ({
+  children,
+  onSwipe,
+  disabled = false,
+  testID
+}) => {
+  const translateX = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(0)).current;
   const rotate = useRef(new Animated.Value(0)).current;
+  const scale = useRef(new Animated.Value(1)).current;
 
-  const panResponder = useRef(
-    PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: () => {
-        pan.setOffset({
-          x: (pan.x as any)._value || 0,
-          y: (pan.y as any)._value || 0,
-        });
-      },
-      onPanResponderMove: (_, gesture) => {
-        pan.setValue({ x: gesture.dx, y: gesture.dy });
-        
-        // Add rotation based on horizontal movement
-        const rotationValue = gesture.dx / 10;
-        rotate.setValue(rotationValue);
-      },
-      onPanResponderRelease: (_, gesture) => {
-        pan.flattenOffset();
-        
-        const { dx, dy } = gesture;
-        const absDx = Math.abs(dx);
-        const absDy = Math.abs(dy);
-        
-        // Determine if it's a horizontal or vertical swipe
-        if (absDx > absDy && absDx > SWIPE_THRESHOLD) {
-          // Horizontal swipe
-          const direction = dx > 0 ? 'right' : 'left';
-          const intensity = Math.min(absDx / SWIPE_THRESHOLD, 2);
-          
-          let result: SwipeResult;
-          if (direction === 'right') {
-            result = intensity > 1.5 ? 'YES!' : 'Yes';
-          } else {
-            result = intensity > 1.5 ? 'NO!' : 'No';
-          }
-          
-          handleSwipe(result);
-        } else if (absDy > absDx && absDy > SWIPE_THRESHOLD) {
-          // Vertical swipe
-          const direction = dy > 0 ? 'down' : 'up';
-          const intensity = Math.min(absDy / SWIPE_THRESHOLD, 2);
-          
-          let result: SwipeResult;
-          if (direction === 'up') {
-            result = intensity > 1.5 ? 'YES!' : 'Yes';
-          } else {
-            result = intensity > 1.5 ? 'NO!' : 'No';
-          }
-          
-          handleSwipe(result);
-        } else {
-          // Snap back
-          snapBack();
-        }
-      },
-    })
-  ).current;
-
-  const handleSwipe = (result: SwipeResult) => {
-    if (isAnimating) return;
-    
-    setIsAnimating(true);
-    
-    const direction = result === 'Yes' || result === 'YES!' ? 1 : -1;
-    const exitX = direction * screenWidth * 1.5;
-    
+  const resetCard = () => {
     Animated.parallel([
-      Animated.timing(pan, {
-        toValue: { x: exitX, y: 0 },
-        duration: 300,
-        useNativeDriver: false,
-      }),
-      Animated.timing(rotate, {
-        toValue: direction * 30,
-        duration: 300,
-        useNativeDriver: false,
-      }),
-    ]).start(() => {
-      onSwipe(result);
+      Animated.spring(translateX, { toValue: 0, useNativeDriver: true }),
+      Animated.spring(translateY, { toValue: 0, useNativeDriver: true }),
+      Animated.spring(rotate, { toValue: 0, useNativeDriver: true }),
+      Animated.spring(scale, { toValue: 1, useNativeDriver: true }),
+    ]).start();
+  };
+
+  const handleSwipe = (direction: SwipeDirection) => {
+    if (disabled) return;
+
+    // Haptic feedback
+    Vibration.vibrate(50);
+
+    // Animate card fly-out (250ms duration, ease-out easing)
+    const exitDistance = screenWidth * 1.5;
+    let targetX = 0;
+    let targetY = 0;
+    let targetRotate = 0;
+
+    switch (direction) {
+      case 'up':
+        targetY = -exitDistance;
+        targetRotate = -15;
+        break;
+      case 'down':
+        targetY = exitDistance;
+        targetRotate = 15;
+        break;
+      case 'left':
+        targetX = -exitDistance;
+        targetRotate = -30;
+        break;
+      case 'right':
+        targetX = exitDistance;
+        targetRotate = 30;
+        break;
+    }
+
+    Animated.timing(
+      Animated.parallel([
+        translateX,
+        translateY,
+        rotate,
+        scale
+      ]),
+      {
+        toValue: { x: targetX, y: targetY, rotate: targetRotate, scale: 0.8 },
+        duration: 250,
+        useNativeDriver: true,
+      }
+    ).start(() => {
+      onSwipe(direction);
       resetCard();
     });
   };
 
-  const snapBack = () => {
-    Animated.parallel([
-      Animated.spring(pan, {
-        toValue: { x: 0, y: 0 },
-        useNativeDriver: false,
-      }),
-      Animated.spring(rotate, {
-        toValue: 0,
-        useNativeDriver: false,
-      }),
-    ]).start();
-  };
+  const onGestureEvent = Animated.event(
+    [{ nativeEvent: { translationX: translateX, translationY: translateY } }],
+    { useNativeDriver: true }
+  );
 
-  const resetCard = () => {
-    pan.setValue({ x: 0, y: 0 });
-    rotate.setValue(0);
-    setIsAnimating(false);
-  };
+  const onHandlerStateChange = (event: any) => {
+    if (disabled) return;
 
-  const handleMediaPress = () => {
-    if (question.media?.type === 'link' && question.media.url) {
-      Linking.openURL(question.media.url);
+    if (event.nativeEvent.state === State.END) {
+      const { translationX, translationY, velocityX, velocityY } = event.nativeEvent;
+      
+      const absX = Math.abs(translationX);
+      const absY = Math.abs(translationY);
+      const absVelocityX = Math.abs(velocityX);
+      const absVelocityY = Math.abs(velocityY);
+
+      // Determine swipe direction based on distance and velocity
+      if (absX > absY && (absX > SWIPE_THRESHOLD || absVelocityX > 500)) {
+        handleSwipe(translationX > 0 ? 'right' : 'left');
+      } else if (absY > absX && (absY > SWIPE_THRESHOLD || absVelocityY > 500)) {
+        handleSwipe(translationY > 0 ? 'down' : 'up');
+      } else {
+        // Reset if not a clear swipe
+        resetCard();
+      }
     }
   };
 
-  const renderMedia = () => {
-    if (!question.media) return null;
+  // Keyboard support
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (disabled) return;
 
-    const { type, url, alt } = question.media;
+      switch (event.key) {
+        case 'ArrowUp':
+          event.preventDefault();
+          handleSwipe('up');
+          break;
+        case 'ArrowDown':
+          event.preventDefault();
+          handleSwipe('down');
+          break;
+        case 'ArrowLeft':
+          event.preventDefault();
+          handleSwipe('left');
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          handleSwipe('right');
+          break;
+        case ' ':
+        case 'Enter':
+          event.preventDefault();
+          handleSwipe('up'); // Default to "YES!" for space/enter
+          break;
+      }
+    };
 
-    if (type === 'image') {
-      return (
-        <TouchableOpacity onPress={handleMediaPress} style={styles.mediaContainer}>
-          <Image
-            source={{ uri: url }}
-            style={styles.mediaImage}
-            resizeMode="cover"
-            accessibilityLabel={alt}
-          />
-        </TouchableOpacity>
-      );
-    }
-
-    if (type === 'link') {
-      return (
-        <TouchableOpacity onPress={handleMediaPress} style={styles.linkContainer}>
-          <Text style={styles.linkText}>🔗 {question.metadata?.source || 'External Link'}</Text>
-        </TouchableOpacity>
-      );
-    }
-
-    return null;
-  };
-
-  const panStyle = {
-    transform: [
-      { translateX: pan.x },
-      { translateY: pan.y },
-      { rotate: rotate.interpolate({
-        inputRange: [-30, 0, 30],
-        outputRange: ['-30deg', '0deg', '30deg'],
-      })},
-    ],
-  };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [disabled]);
 
   return (
-    <View style={[styles.container, style]}>
+    <PanGestureHandler
+      onGestureEvent={onGestureEvent}
+      onHandlerStateChange={onHandlerStateChange}
+      enabled={!disabled}
+    >
       <Animated.View
-        style={[styles.card, panStyle]}
-        {...panResponder.panHandlers}
+        style={{
+          transform: [
+            { translateX },
+            { translateY },
+            { 
+              rotate: rotate.interpolate({
+                inputRange: [-180, 180],
+                outputRange: ['-180deg', '180deg'],
+              })
+            },
+            { scale }
+          ],
+        }}
+        testID={testID}
       >
-        <View style={styles.content}>
-          <Text style={styles.questionText}>{question.text}</Text>
+        <View style={styles.card}>
+          {children}
           
-          {renderMedia()}
-          
-          {question.metadata?.context && (
-            <Text style={styles.contextText}>{question.metadata.context}</Text>
-          )}
-        </View>
-        
-        <View style={styles.swipeHints}>
-          <Text style={styles.hintText}>← Swipe left for No</Text>
-          <Text style={styles.hintText}>Swipe right for Yes →</Text>
+          {/* Visual Direction Hints */}
+          <View style={styles.directionHints}>
+            <View style={[styles.hint, styles.hintUp]}>
+              <Text style={styles.hintText}>↑ YES!</Text>
+            </View>
+            <View style={[styles.hint, styles.hintRight]}>
+              <Text style={styles.hintText}>→ Yes</Text>
+            </View>
+            <View style={[styles.hint, styles.hintLeft]}>
+              <Text style={styles.hintText}>← No</Text>
+            </View>
+            <View style={[styles.hint, styles.hintDown]}>
+              <Text style={styles.hintText}>↓ NO!</Text>
+            </View>
+          </View>
         </View>
       </Animated.View>
-    </View>
+    </PanGestureHandler>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: Spacing.lg,
-  },
+const styles = {
   card: {
-    width: '100%',
-    maxWidth: 400,
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
+    backgroundColor: Colors.card,
+    borderRadius: Radii.lg,
     padding: Spacing.xl,
     shadowColor: Colors.shadow,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.25,
+    shadowRadius: 16,
     elevation: 8,
+    minHeight: 200,
+    justifyContent: 'center' as const,
+    alignItems: 'center' as const,
   },
-  content: {
-    alignItems: 'center',
+  directionHints: {
+    position: 'absolute' as const,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    pointerEvents: 'none' as const,
   },
-  questionText: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: Colors.textPrimary,
-    textAlign: 'center',
-    marginBottom: Spacing.lg,
-    lineHeight: 28,
-  },
-  mediaContainer: {
-    width: '100%',
-    height: 200,
-    borderRadius: 12,
-    overflow: 'hidden',
-    marginBottom: Spacing.lg,
-  },
-  mediaImage: {
-    width: '100%',
-    height: '100%',
-  },
-  linkContainer: {
+  hint: {
+    position: 'absolute' as const,
     backgroundColor: Colors.primary,
-    padding: Spacing.md,
-    borderRadius: 8,
-    marginBottom: Spacing.lg,
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: Spacing.xs,
+    borderRadius: Radii.sm,
+    opacity: 0.8,
   },
-  linkText: {
-    color: Colors.surface,
-    fontSize: 16,
-    fontWeight: '500',
-    textAlign: 'center',
+  hintUp: {
+    top: Spacing.md,
+    left: '50%',
+    transform: [{ translateX: -30 }],
   },
-  contextText: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-    textAlign: 'center',
-    fontStyle: 'italic',
+  hintRight: {
+    right: Spacing.md,
+    top: '50%',
+    transform: [{ translateY: -15 }],
   },
-  swipeHints: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: Spacing.lg,
-    paddingTop: Spacing.lg,
-    borderTopWidth: 1,
-    borderTopColor: Colors.border,
+  hintLeft: {
+    left: Spacing.md,
+    top: '50%',
+    transform: [{ translateY: -15 }],
+  },
+  hintDown: {
+    bottom: Spacing.md,
+    left: '50%',
+    transform: [{ translateX: -30 }],
   },
   hintText: {
-    fontSize: 12,
-    color: Colors.textSecondary,
-    fontWeight: '500',
+    ...Typography.caption,
+    color: Colors.text,
+    fontWeight: '600' as const,
   },
-});
-
-export default SwipeCard;
+};

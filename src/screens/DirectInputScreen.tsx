@@ -109,16 +109,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: '#fff',
+    backgroundColor: '#000', // Black background like TikTok
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    color: '#fff',
   },
   description: {
     fontSize: 16,
-    color: '#666',
+    color: 'rgba(255, 255, 255, 0.7)',
     marginBottom: 32,
   },
   section: {
@@ -128,36 +129,44 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 8,
+    color: '#fff',
   },
   picker: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#1a1a1a',
     borderRadius: 8,
+    color: '#fff',
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#fff',
     paddingVertical: 16,
-    borderRadius: 12,
+    borderRadius: 25,
     marginVertical: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
   },
   buttonDisabled: {
-    backgroundColor: '#ccc',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
   },
   buttonText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 18,
     fontWeight: '600',
     textAlign: 'center',
   },
   footerText: {
     fontSize: 14,
-    color: '#666',
+    color: 'rgba(255, 255, 255, 0.5)',
     textAlign: 'center',
     marginTop: 16,
   },
   link: {
     fontSize: 16,
-    color: '#007AFF',
+    color: '#fff',
     textAlign: 'center',
     marginTop: 8,
+    textDecorationLine: 'underline',
   },
 });

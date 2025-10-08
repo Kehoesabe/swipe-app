@@ -17,6 +17,11 @@ import { questions } from '../data/questions';
 import { AssessmentScoring } from '../lib/scoringAlgorithm';
 import { SwipeDirection } from '../lib/scoringAlgorithm';
 import { debugLogger } from '../lib/debugLogger';
+import { Screen } from '../ui/Screen';
+import { ProgressBar } from '../components/ProgressBar';
+import { SwipeCard } from '../components/SwipeCard';
+import { Button } from '../ui/Button';
+import { Colors, Typography, Spacing } from '../theme';
 
 // TODO: Set to false before production deployment
 const TESTING_MODE = true;
@@ -412,29 +417,16 @@ export default function AssessmentScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.title}>Swipe Type Assessment</Text>
-        <Text style={styles.subtitle}>Question {progress.current + 1} of {progress.total}</Text>
-      </View>
-
+    <Screen>
       {/* Progress Bar */}
-      <View style={styles.progressContainer}>
-        <View style={styles.progressBar}>
-          <Animated.View 
-            style={[
-              styles.progressFill, 
-              { width: `${progress.percentage}%` }
-            ]} 
-          />
-        </View>
-        <Text style={styles.progressText}>
-          {Math.round(progress.percentage)}% Complete
+      <ProgressBar progress={progress.percentage} />
+      
+      <View style={styles.container}>
+        <Text style={[styles.progressText, Typography.caption]}>
+          Question {progress.current + 1} of {progress.total} • {Math.round(progress.percentage)}% Complete
         </Text>
-      </View>
 
-      {/* Question Card */}
+        {/* Question Card */}
       <View style={styles.cardContainer}>
         <Animated.View
           testID="question-card"
@@ -456,7 +448,7 @@ export default function AssessmentScreen() {
           {...panResponder.panHandlers}
         >
           {currentQuestion?.text ? (
-            <Text style={styles.questionText}>{currentQuestion.text}</Text>
+            <Text style={[styles.questionText, { color: Colors.text }]}>{currentQuestion.text}</Text>
           ) : (
             <View style={styles.errorContainer}>
               <Text style={styles.errorText}>
@@ -543,22 +535,71 @@ export default function AssessmentScreen() {
           </View>
         )}
       </View>
+      </View>
+
+      {/* Accessibility Buttons for Multi-Input Support */}
+      <View style={styles.accessibilityButtons}>
+        <Button
+          title="YES!"
+          variant="accessibility"
+          onPress={() => handleSwipe('up')}
+          disabled={!canAnswer}
+          accessibilityLabel="Strongly agree - swipe up"
+        />
+        <Button
+          title="Yes"
+          variant="accessibility"
+          onPress={() => handleSwipe('right')}
+          disabled={!canAnswer}
+          accessibilityLabel="Agree - swipe right"
+        />
+        <Button
+          title="No"
+          variant="accessibility"
+          onPress={() => handleSwipe('left')}
+          disabled={!canAnswer}
+          accessibilityLabel="Disagree - swipe left"
+        />
+        <Button
+          title="NO!"
+          variant="accessibility"
+          onPress={() => handleSwipe('down')}
+          disabled={!canAnswer}
+          accessibilityLabel="Strongly disagree - swipe down"
+        />
+      </View>
 
       {/* Action Buttons */}
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.actionButton} onPress={handleUndo}>
-          <Text style={styles.actionButtonText}>Undo</Text>
-        </TouchableOpacity>
+        <Button
+          title="Undo"
+          variant="secondary"
+          onPress={handleUndo}
+          disabled={scoring.responses.length === 0}
+        />
       </View>
-    </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000', // Black background like TikTok
     padding: 0,
+  },
+  themeToggle: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    borderWidth: 1,
+    zIndex: 1000,
+  },
+  themeToggleText: {
+    fontSize: 12,
+    fontWeight: '600',
   },
   header: {
     position: 'absolute',
@@ -760,10 +801,16 @@ const styles = StyleSheet.create({
     right: 0,
     height: '25%',
   },
+  accessibilityButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: Spacing.lg,
+    gap: Spacing.sm,
+  },
   actions: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingHorizontal: 40,
+    justifyContent: 'center',
+    paddingVertical: Spacing.lg,
   },
   actionButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',

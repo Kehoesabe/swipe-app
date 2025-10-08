@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { freeSummaries } from '../data/freeSummaries';
 import { premiumReports } from '../data/premiumReports';
 import { AssessmentResult } from '../lib/types';
+import { useTheme } from '../theme/ThemeProvider';
 
 interface ResultsScreenProps {
   route: {
@@ -20,6 +21,7 @@ const isDesktop = screenWidth > 1024;
 export default function ResultsScreen({ route }: ResultsScreenProps) {
   const { result } = route.params;
   const navigation = useNavigation();
+  const { theme, isDark, toggleTheme } = useTheme();
 
   const handleShare = async () => {
     try {
@@ -32,13 +34,23 @@ export default function ResultsScreen({ route }: ResultsScreenProps) {
   };
 
   return (
-    <ScrollView style={[styles.container, isDesktop && styles.desktopContainer]}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }, isDesktop && styles.desktopContainer]}>
+      {/* Theme Toggle for Testing */}
+      <TouchableOpacity 
+        style={[styles.themeToggle, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
+        onPress={toggleTheme}
+      >
+        <Text style={[styles.themeToggleText, { color: theme.colors.text }]}>
+          {isDark ? '🌙' : '☀️'} {isDark ? 'Dark' : 'Light'} Mode
+        </Text>
+      </TouchableOpacity>
+      
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { backgroundColor: theme.colors.primary }]}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Text style={styles.backButtonText}>← Back</Text>
+          <Text style={[styles.backButtonText, { color: theme.colors.textInverse }]}>← Back</Text>
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Your Results</Text>
+        <Text style={[styles.headerTitle, { color: theme.colors.textInverse }]}>Your Results</Text>
       </View>
 
       {/* Type Reveal */}
@@ -95,7 +107,20 @@ export default function ResultsScreen({ route }: ResultsScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000', // Black background like TikTok
+  },
+  themeToggle: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    borderWidth: 1,
+    zIndex: 1000,
+  },
+  themeToggleText: {
+    fontSize: 12,
+    fontWeight: '600',
   },
   desktopContainer: {
     maxWidth: 800,
