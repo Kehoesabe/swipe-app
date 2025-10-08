@@ -37,6 +37,18 @@ export default function ResultsScreen({ route }: ResultsScreenProps) {
   
   const { theme, isDark, toggleTheme } = themeContext;
 
+  // Fallback theme if not available
+  const safeTheme = theme || {
+    colors: {
+      background: '#000000',
+      surface: '#1a1a1a',
+      text: '#ffffff',
+      textInverse: '#000000',
+      primary: '#8B5CF6',
+      border: '#333333'
+    }
+  };
+
   const handleShare = async () => {
     try {
       await Share.share({
@@ -48,23 +60,23 @@ export default function ResultsScreen({ route }: ResultsScreenProps) {
   };
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }, isDesktop && styles.desktopContainer]}>
+    <ScrollView style={[styles.container, { backgroundColor: safeTheme.colors.background }, isDesktop && styles.desktopContainer]}>
       {/* Theme Toggle for Testing */}
       <TouchableOpacity 
-        style={[styles.themeToggle, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
+        style={[styles.themeToggle, { backgroundColor: safeTheme.colors.surface, borderColor: safeTheme.colors.border }]}
         onPress={toggleTheme}
       >
-        <Text style={[styles.themeToggleText, { color: theme.colors.text }]}>
+        <Text style={[styles.themeToggleText, { color: safeTheme.colors.text }]}>
           {isDark ? '🌙' : '☀️'} {isDark ? 'Dark' : 'Light'} Mode
         </Text>
       </TouchableOpacity>
       
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: theme.colors.primary }]}>
+      <View style={[styles.header, { backgroundColor: safeTheme.colors.primary }]}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Text style={[styles.backButtonText, { color: theme.colors.textInverse }]}>← Back</Text>
+          <Text style={[styles.backButtonText, { color: safeTheme.colors.textInverse }]}>← Back</Text>
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.colors.textInverse }]}>Your Results</Text>
+        <Text style={[styles.headerTitle, { color: safeTheme.colors.textInverse }]}>Your Results</Text>
       </View>
 
       {/* Type Reveal */}
