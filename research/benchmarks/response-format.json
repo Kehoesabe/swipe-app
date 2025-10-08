@@ -1,0 +1,10 @@
+{
+  "ipsativeBias": {
+    "description": "Forced-choice formats induce negative inter-scale correlations",
+    "mitigation": "Use within-person standardization and normative anchors"
+  },
+  "normativeBias": {
+    "description": "Likert prone to central-tendency and acquiescence",
+    "mitigation": "Reverse-keyed items, randomized order, attention checks"
+  }
+}

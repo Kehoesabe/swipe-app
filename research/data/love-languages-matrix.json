@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "last_updated": "2025-10-08",
+  "notes": "ResearchGate baseline; do not average here. Add Google Scholar studies into this same array.",
+  "studies": [
+    {
+      "id": "LL_SUR_2016",
+      "citation": "Surijah, E. A., & Septiarly, Y. L. (2016). Construct validation of five love languages.",
+      "country": "Indonesia",
+      "year": 2016,
+      "n": 400,
+      "instrument": { "scale": "Likert", "ipsative": false },
+      "factorModel": { "k": 5, "method": "CFA" },
+      "mixedTypePrevalencePercent": 92.75,
+      "distributions": {
+        "primaryPercentPureSubsample": {
+          "wordsOfAffirmation": 41.38,
+          "qualityTime": 10.34,
+          "actsOfService": 20.70,
+          "receivingGifts": 17.24,
+          "physicalTouch": 10.34
+        },
+        "notes": "Pure subgroup only; full sample overwhelmingly mixed."
+      },
+      "reliability": { "reported": true },
+      "tags": ["validation","mixed-types"]
+    },
+    {
+      "id": "LL_SUR_2020",
+      "citation": "Surijah, E. A., & Kirana, C. T. (2020). Five Love Languages Scale factor analysis.",
+      "country": "Indonesia (Bali)",
+      "year": 2020,
+      "n": 687,
+      "instrument": { "scale": "Likert", "ipsative": false },
+      "factorModel": { "k": 4, "method": "EFA/CFA", "notes": "Acts of Service + Receiving Gifts merge ('Sacrificial' factor)" },
+      "mixedTypePrevalencePercent": null,
+      "distributions": null,
+      "reliability": { "reported": true },
+      "tags": ["factor-structure"]
+    },
+    {
+      "id": "PLACEHOLDER_GS_LL_001",
+      "citation": "[TBD]",
+      "country": "TBD",
+      "year": null,
+      "n": null,
+      "tags": ["google-scholar","pending"]
+    },
+    {
+      "id": "PLACEHOLDER_GS_LL_002",
+      "citation": "[TBD]",
+      "country": "TBD",
+      "year": null,
+      "n": null,
+      "tags": ["google-scholar","pending"]
+    },
+    {
+      "id": "PLACEHOLDER_GS_LL_003",
+      "citation": "[TBD]",
+      "country": "TBD",
+      "year": null,
+      "n": null,
+      "tags": ["google-scholar","pending"]
+    }
+  ]
+}

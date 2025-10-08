@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "status": "PROVISIONAL - pending Google Scholar validation",
+  "notes": "Baseline from ResearchGate studies only. Update after Google Scholar.",
+  "loveLanguages": {
+    "sourcesUsed": ["LL_SUR_2016"],
+    "mixedTypePrevalenceApproxPercent": 92.75,
+    "toRefineWithGS": [
+      "Population-representative studies with explicit % by language",
+      "Cross-cultural variance and thresholds defining 'mixed'"
+    ]
+  },
+  "enneagram": {
+    "sourcesUsed": ["EN_NTTS_TR_2014"],
+    "toRefineWithGS": [
+      "Large-N, non-student distributions across regions",
+      "Instrument effects (forced-choice vs Likert)"
+    ]
+  }
+}

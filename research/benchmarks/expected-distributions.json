@@ -1,0 +1,10 @@
+{
+  "status": "PROVISIONAL - will adjust post-GS",
+  "loveLanguages": {
+    "mixedTypePrevalenceTargetPct": { "min": 80, "expected": 90, "anchor": 92.75 },
+    "notes": "Will add distribution ranges after Google Scholar"
+  },
+  "enneagram": {
+    "notes": "Will add type distribution ranges after Google Scholar"
+  }
+}

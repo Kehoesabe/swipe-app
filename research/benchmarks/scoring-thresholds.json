@@ -1,0 +1,15 @@
+{
+  "method": "z-band + POMP normalization",
+  "pomp": { "min": 0, "max": 100 },
+  "zBanding": {
+    "veryHigh": { "minZ": 1.0 },
+    "high": { "minZ": 0.5, "maxZ": 1.0 },
+    "average": { "minZ": -0.5, "maxZ": 0.5 },
+    "low": { "maxZ": -0.5 }
+  },
+  "mixedTypePolicy": {
+    "coDominantIfWithinSigma": 0.5,
+    "secondaryIfWithinSigma": 0.75
+  },
+  "notes": "Supports high mixed-type prevalence"
+}

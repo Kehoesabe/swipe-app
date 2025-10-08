@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "last_updated": "2025-10-08",
+  "notes": "Validation-heavy baseline; distributions sparse. Add GS distribution studies when available.",
+  "studies": [
+    {
+      "id": "EN_NTTS_TR_2014",
+      "citation": "Yılmaz et al. (2014). Validity and Reliability of Nine Types Temperament Scale.",
+      "country": "Turkey",
+      "year": 2014,
+      "n": 990,
+      "instrument": { "scale": "NTTS (91 items)", "ipsative": false },
+      "factorModel": { "k": 9, "method": "EFA+CFA" },
+      "reliability": { "alphaTotal": 0.75, "alphaRangeByType": [0.68, 0.83] },
+      "fit": { "CFI": 0.88, "RMSEA": 0.05 },
+      "distributions": null,
+      "notes": "Strong psychometric anchor; no population %."
+    },
+    {
+      "id": "PLACEHOLDER_GS_EN_001",
+      "citation": "[TBD]",
+      "country": "TBD",
+      "year": null,
+      "n": null,
+      "tags": ["google-scholar","pending"]
+    },
+    {
+      "id": "PLACEHOLDER_GS_EN_002",
+      "citation": "[TBD]",
+      "country": "TBD",
+      "year": null,
+      "n": null,
+      "tags": ["google-scholar","pending"]
+    },
+    {
+      "id": "PLACEHOLDER_GS_EN_003",
+      "citation": "[TBD]",
+      "country": "TBD",
+      "year": null,
+      "n": null,
+      "tags": ["google-scholar","pending"]
+    }
+  ]
+}

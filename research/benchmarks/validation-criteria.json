@@ -1,0 +1,16 @@
+{
+  "fitTargets": {
+    "useDynamicFit": true,
+    "CFImin": 0.93,
+    "TLImin": 0.93,
+    "RMSEAmax": 0.08,
+    "notes": "DFI-aware thresholds for Likert CFA"
+  },
+  "reliabilityTargets": {
+    "overallAlpha": 0.8,
+    "subscaleAlpha": 0.7
+  },
+  "distributionTolerance": { "absolutePctPoints": 10 },
+  "mixedPrevalenceTolerance": { "absolutePctPoints": 5 },
+  "performance": { "maxMsPerScore": 100 }
+}
