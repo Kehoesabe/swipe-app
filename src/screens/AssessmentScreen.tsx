@@ -542,41 +542,128 @@ export default function AssessmentScreen() {
       </View>
       </View>
 
-      {/* Accessibility Buttons - Only show during active swiping */}
+      {/* Ghost Answer Buttons - Slide out from behind card during swipe */}
       {isSwiping && (
-        <View style={styles.accessibilityButtons}>
-          <Button
-            title="YES!"
-            variant="secondary"
-            onPress={() => handleSwipe('up')}
-            disabled={!canAnswer}
-            accessibilityLabel="Strongly agree - swipe up"
-            style={styles.accessibilityButton}
-          />
-          <Button
-            title="Yes"
-            variant="secondary"
-            onPress={() => handleSwipe('right')}
-            disabled={!canAnswer}
-            accessibilityLabel="Agree - swipe right"
-            style={styles.accessibilityButton}
-          />
-          <Button
-            title="No"
-            variant="secondary"
-            onPress={() => handleSwipe('left')}
-            disabled={!canAnswer}
-            accessibilityLabel="Disagree - swipe left"
-            style={styles.accessibilityButton}
-          />
-          <Button
-            title="NO!"
-            variant="secondary"
-            onPress={() => handleSwipe('down')}
-            disabled={!canAnswer}
-            accessibilityLabel="Strongly disagree - swipe down"
-            style={styles.accessibilityButton}
-          />
+        <View style={styles.ghostAnswerButtons}>
+          <Animated.View 
+            style={[
+              styles.ghostButton,
+              styles.ghostButtonUp,
+              {
+                transform: [
+                  { translateY: pan.y.interpolate({
+                    inputRange: [-200, 0],
+                    outputRange: [-50, 0],
+                    extrapolate: 'clamp'
+                  })}
+                ],
+                opacity: pan.y.interpolate({
+                  inputRange: [-100, 0],
+                  outputRange: [1, 0],
+                  extrapolate: 'clamp'
+                })
+              }
+            ]}
+          >
+            <Button
+              title="YES!"
+              variant="secondary"
+              onPress={() => handleSwipe('up')}
+              disabled={!canAnswer}
+              accessibilityLabel="Strongly agree - swipe up"
+              style={styles.ghostButtonStyle}
+            />
+          </Animated.View>
+          
+          <Animated.View 
+            style={[
+              styles.ghostButton,
+              styles.ghostButtonRight,
+              {
+                transform: [
+                  { translateX: pan.x.interpolate({
+                    inputRange: [0, 200],
+                    outputRange: [0, 50],
+                    extrapolate: 'clamp'
+                  })}
+                ],
+                opacity: pan.x.interpolate({
+                  inputRange: [0, 100],
+                  outputRange: [0, 1],
+                  extrapolate: 'clamp'
+                })
+              }
+            ]}
+          >
+            <Button
+              title="Yes"
+              variant="secondary"
+              onPress={() => handleSwipe('right')}
+              disabled={!canAnswer}
+              accessibilityLabel="Agree - swipe right"
+              style={styles.ghostButtonStyle}
+            />
+          </Animated.View>
+          
+          <Animated.View 
+            style={[
+              styles.ghostButton,
+              styles.ghostButtonLeft,
+              {
+                transform: [
+                  { translateX: pan.x.interpolate({
+                    inputRange: [-200, 0],
+                    outputRange: [-50, 0],
+                    extrapolate: 'clamp'
+                  })}
+                ],
+                opacity: pan.x.interpolate({
+                  inputRange: [-100, 0],
+                  outputRange: [1, 0],
+                  extrapolate: 'clamp'
+                })
+              }
+            ]}
+          >
+            <Button
+              title="No"
+              variant="secondary"
+              onPress={() => handleSwipe('left')}
+              disabled={!canAnswer}
+              accessibilityLabel="Disagree - swipe left"
+              style={styles.ghostButtonStyle}
+            />
+          </Animated.View>
+          
+          <Animated.View 
+            style={[
+              styles.ghostButton,
+              styles.ghostButtonDown,
+              {
+                transform: [
+                  { translateY: pan.y.interpolate({
+                    inputRange: [0, 200],
+                    outputRange: [0, 50],
+                    extrapolate: 'clamp'
+                  })}
+                ],
+                opacity: pan.y.interpolate({
+                  inputRange: [0, 100],
+                  outputRange: [0, 1],
+                  extrapolate: 'clamp'
+                })
+              }
+            ]}
+          >
+            <Button
+              title="NO!"
+              variant="secondary"
+              onPress={() => handleSwipe('down')}
+              disabled={!canAnswer}
+              accessibilityLabel="Strongly disagree - swipe down"
+              style={styles.ghostButtonStyle}
+            />
+          </Animated.View>
         </View>
       )}
 
@@ -823,6 +910,43 @@ const styles = StyleSheet.create({
   },
   accessibilityButton: {
     minWidth: 60,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+  },
+  ghostAnswerButtons: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    pointerEvents: 'box-none',
+  },
+  ghostButton: {
+    position: 'absolute',
+    zIndex: 1,
+  },
+  ghostButtonUp: {
+    top: '20%',
+    left: '50%',
+    transform: [{ translateX: -40 }],
+  },
+  ghostButtonRight: {
+    top: '50%',
+    right: '10%',
+    transform: [{ translateY: -20 }],
+  },
+  ghostButtonLeft: {
+    top: '50%',
+    left: '10%',
+    transform: [{ translateY: -20 }],
+  },
+  ghostButtonDown: {
+    bottom: '20%',
+    left: '50%',
+    transform: [{ translateX: -40 }],
+  },
+  ghostButtonStyle: {
+    minWidth: 80,
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.sm,
   },
