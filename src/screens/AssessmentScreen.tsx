@@ -546,31 +546,35 @@ export default function AssessmentScreen() {
       <View style={styles.accessibilityButtons}>
         <Button
           title="YES!"
-          variant="accessibility"
+          variant="secondary"
           onPress={() => handleSwipe('up')}
           disabled={!canAnswer}
           accessibilityLabel="Strongly agree - swipe up"
+          style={styles.accessibilityButton}
         />
         <Button
           title="Yes"
-          variant="accessibility"
+          variant="secondary"
           onPress={() => handleSwipe('right')}
           disabled={!canAnswer}
           accessibilityLabel="Agree - swipe right"
+          style={styles.accessibilityButton}
         />
         <Button
           title="No"
-          variant="accessibility"
+          variant="secondary"
           onPress={() => handleSwipe('left')}
           disabled={!canAnswer}
           accessibilityLabel="Disagree - swipe left"
+          style={styles.accessibilityButton}
         />
         <Button
           title="NO!"
-          variant="accessibility"
+          variant="secondary"
           onPress={() => handleSwipe('down')}
           disabled={!canAnswer}
           accessibilityLabel="Strongly disagree - swipe down"
+          style={styles.accessibilityButton}
         />
       </View>
 
@@ -808,9 +812,17 @@ const styles = StyleSheet.create({
   },
   accessibilityButtons: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: Spacing.lg,
-    gap: Spacing.sm,
+    paddingHorizontal: Spacing.md,
+    gap: Spacing.md,
+    flexWrap: 'wrap',
+  },
+  accessibilityButton: {
+    minWidth: 60,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
   },
   actions: {
     flexDirection: 'row',
