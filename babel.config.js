@@ -4,7 +4,7 @@ module.exports = function(api) {
     presets: [
       'babel-preset-expo',
     ],
-    plugins: [],
+    plugins: ['react-native-reanimated/plugin'], // must be last
     env: {
       test: {
         presets: [
