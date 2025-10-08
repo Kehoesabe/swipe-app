@@ -315,17 +315,17 @@ export default function AssessmentScreen() {
     Animated.parallel([
       Animated.timing(pan, {
         toValue: { x: exitX, y: exitY },
-        duration: 1500, // 2000ms * 0.75 = 1500ms (25% faster from current)
+        duration: 1050, // 1500ms * 0.70 = 1050ms (30% faster from current)
         useNativeDriver: false,
       }),
       Animated.timing(rotate, {
         toValue: direction === 'left' ? -30 : direction === 'right' ? 30 : 0,
-        duration: 1500, // 2000ms * 0.75 = 1500ms (25% faster from current)
+        duration: 1050, // 1500ms * 0.70 = 1050ms (30% faster from current)
         useNativeDriver: false,
       }),
       Animated.timing(scale, {
         toValue: 0.8,
-        duration: 1500, // 2000ms * 0.75 = 1500ms (25% faster from current)
+        duration: 1050, // 1500ms * 0.70 = 1050ms (30% faster from current)
         useNativeDriver: false,
       }),
     ]).start(() => {

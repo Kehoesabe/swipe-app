@@ -82,38 +82,41 @@ export default function ResultsScreen({ route }: ResultsScreenProps) {
       {/* Type Reveal */}
       <View style={styles.reveal}>
         <Text style={styles.yourType}>Your Swipe Type</Text>
-        <Text style={styles.typeName}>{result.swipeTypeName}</Text>
+        {/* Type Badge with Primary Gradient */}
+        <View style={[styles.typeBadge, { backgroundColor: safeTheme.colors.primary }]}>
+          <Text style={styles.typeName}>{result.swipeTypeName}</Text>
+        </View>
       </View>
 
       {/* Free Summary - Teaser */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Your Profile</Text>
-        <Text style={styles.content}>{freeSummaries[result.swipeType]}</Text>
+      <View style={[styles.section, { backgroundColor: safeTheme.colors.surface }]}>
+        <Text style={[styles.sectionTitle, { color: safeTheme.colors.text }]}>Your Profile</Text>
+        <Text style={[styles.content, { color: safeTheme.colors.text }]}>{freeSummaries[result.swipeType]}</Text>
       </View>
 
       {/* Purchase Prompt */}
       <View style={styles.purchaseSection}>
-        <View style={styles.premiumCard}>
-          <Text style={styles.premiumTitle}>Unlock Your Complete Report</Text>
-          <Text style={styles.premiumDescription}>
+        <View style={[styles.premiumCard, { backgroundColor: safeTheme.colors.surface }]}>
+          <Text style={[styles.premiumTitle, { color: safeTheme.colors.text }]}>Unlock Your Complete Report</Text>
+          <Text style={[styles.premiumDescription, { color: safeTheme.colors.text }]}>
             Get your detailed 7-section report with personalized insights, 
             relationship advice, and growth opportunities.
           </Text>
           
           <View style={styles.featuresList}>
-            <Text style={styles.featureItem}>✓ How You Love - Your unique love style</Text>
-            <Text style={styles.featureItem}>✓ What You Need - Your emotional needs</Text>
-            <Text style={styles.featureItem}>✓ Your Strengths - Your relationship superpowers</Text>
-            <Text style={styles.featureItem}>✓ Growth Opportunities - Areas to develop</Text>
-            <Text style={styles.featureItem}>✓ In Conflict - How you handle disagreements</Text>
-            <Text style={styles.featureItem}>✓ Advice for Partners - How others can love you better</Text>
+            <Text style={[styles.featureItem, { color: safeTheme.colors.text }]}>✓ How You Love - Your unique love style</Text>
+            <Text style={[styles.featureItem, { color: safeTheme.colors.text }]}>✓ What You Need - Your emotional needs</Text>
+            <Text style={[styles.featureItem, { color: safeTheme.colors.text }]}>✓ Your Strengths - Your relationship superpowers</Text>
+            <Text style={[styles.featureItem, { color: safeTheme.colors.text }]}>✓ Growth Opportunities - Areas to develop</Text>
+            <Text style={[styles.featureItem, { color: safeTheme.colors.text }]}>✓ In Conflict - How you handle disagreements</Text>
+            <Text style={[styles.featureItem, { color: safeTheme.colors.text }]}>✓ Advice for Partners - How others can love you better</Text>
           </View>
 
           <TouchableOpacity 
-            style={styles.purchaseButton}
+            style={[styles.purchaseButton, { backgroundColor: safeTheme.colors.primary }]}
             onPress={() => navigation.navigate('FullReport', { result })}
           >
-            <Text style={styles.purchaseButtonText}>View Full Report (Free Preview)</Text>
+            <Text style={[styles.purchaseButtonText, { color: safeTheme.colors.textInverse }]}>View Full Report (Free Preview)</Text>
           </TouchableOpacity>
           
           <Text style={styles.previewNote}>
@@ -194,6 +197,18 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     color: '#fff',
+  },
+  typeBadge: {
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 20,
+    alignSelf: 'center',
+    marginTop: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
   },
   section: {
     padding: isDesktop ? 32 : 24,
