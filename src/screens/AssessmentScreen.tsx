@@ -542,127 +542,111 @@ export default function AssessmentScreen() {
       </View>
       </View>
 
-      {/* Ghost Answer Buttons - Slide out from behind card during swipe */}
+      {/* Ghost Answer Messages - Static messages attached to ghost cards */}
       {isSwiping && (
-        <View style={styles.ghostAnswerButtons}>
+        <View style={styles.ghostAnswerMessages}>
+          {/* Strongly Agree - Green message for UP swipe */}
           <Animated.View 
             style={[
-              styles.ghostButton,
-              styles.ghostButtonUp,
+              styles.ghostMessage,
+              styles.ghostMessageUp,
               {
                 transform: [
                   { translateY: pan.y.interpolate({
                     inputRange: [-200, 0],
-                    outputRange: [-50, 0],
+                    outputRange: [-30, 0],
                     extrapolate: 'clamp'
                   })}
                 ],
                 opacity: pan.y.interpolate({
-                  inputRange: [-100, 0],
+                  inputRange: [-80, 0],
                   outputRange: [1, 0],
                   extrapolate: 'clamp'
                 })
               }
             ]}
           >
-            <Button
-              title="YES!"
-              variant="secondary"
-              onPress={() => handleSwipe('up')}
-              disabled={!canAnswer}
-              accessibilityLabel="Strongly agree - swipe up"
-              style={styles.ghostButtonStyle}
-            />
+            <View style={styles.messageBoxGreen}>
+              <Text style={styles.messageTextGreen}>Strongly Agree!</Text>
+            </View>
           </Animated.View>
           
+          {/* Slightly Agree - Green message for RIGHT swipe */}
           <Animated.View 
             style={[
-              styles.ghostButton,
-              styles.ghostButtonRight,
+              styles.ghostMessage,
+              styles.ghostMessageRight,
               {
                 transform: [
                   { translateX: pan.x.interpolate({
                     inputRange: [0, 200],
-                    outputRange: [0, 50],
+                    outputRange: [0, 30],
                     extrapolate: 'clamp'
                   })}
                 ],
                 opacity: pan.x.interpolate({
-                  inputRange: [0, 100],
+                  inputRange: [0, 80],
                   outputRange: [0, 1],
                   extrapolate: 'clamp'
                 })
               }
             ]}
           >
-            <Button
-              title="Yes"
-              variant="secondary"
-              onPress={() => handleSwipe('right')}
-              disabled={!canAnswer}
-              accessibilityLabel="Agree - swipe right"
-              style={styles.ghostButtonStyle}
-            />
+            <View style={styles.messageBoxGreen}>
+              <Text style={styles.messageTextGreen}>Slightly Agree</Text>
+            </View>
           </Animated.View>
           
+          {/* Slightly Disagree - Red message for LEFT swipe */}
           <Animated.View 
             style={[
-              styles.ghostButton,
-              styles.ghostButtonLeft,
+              styles.ghostMessage,
+              styles.ghostMessageLeft,
               {
                 transform: [
                   { translateX: pan.x.interpolate({
                     inputRange: [-200, 0],
-                    outputRange: [-50, 0],
+                    outputRange: [-30, 0],
                     extrapolate: 'clamp'
                   })}
                 ],
                 opacity: pan.x.interpolate({
-                  inputRange: [-100, 0],
+                  inputRange: [-80, 0],
                   outputRange: [1, 0],
                   extrapolate: 'clamp'
                 })
               }
             ]}
           >
-            <Button
-              title="No"
-              variant="secondary"
-              onPress={() => handleSwipe('left')}
-              disabled={!canAnswer}
-              accessibilityLabel="Disagree - swipe left"
-              style={styles.ghostButtonStyle}
-            />
+            <View style={styles.messageBoxRed}>
+              <Text style={styles.messageTextRed}>Slightly Disagree</Text>
+            </View>
           </Animated.View>
           
+          {/* Strongly Disagree - Red message for DOWN swipe */}
           <Animated.View 
             style={[
-              styles.ghostButton,
-              styles.ghostButtonDown,
+              styles.ghostMessage,
+              styles.ghostMessageDown,
               {
                 transform: [
                   { translateY: pan.y.interpolate({
                     inputRange: [0, 200],
-                    outputRange: [0, 50],
+                    outputRange: [0, 30],
                     extrapolate: 'clamp'
                   })}
                 ],
                 opacity: pan.y.interpolate({
-                  inputRange: [0, 100],
+                  inputRange: [0, 80],
                   outputRange: [0, 1],
                   extrapolate: 'clamp'
                 })
               }
             ]}
           >
-            <Button
-              title="NO!"
-              variant="secondary"
-              onPress={() => handleSwipe('down')}
-              disabled={!canAnswer}
-              accessibilityLabel="Strongly disagree - swipe down"
-              style={styles.ghostButtonStyle}
-            />
+            <View style={styles.messageBoxRed}>
+              <Text style={styles.messageTextRed}>Strongly Disagree!</Text>
+            </View>
           </Animated.View>
         </View>
       )}
@@ -913,7 +897,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.sm,
   },
-  ghostAnswerButtons: {
+  ghostAnswerMessages: {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -921,34 +905,59 @@ const styles = StyleSheet.create({
     bottom: 0,
     pointerEvents: 'box-none',
   },
-  ghostButton: {
+  ghostMessage: {
     position: 'absolute',
     zIndex: 1,
   },
-  ghostButtonUp: {
-    top: '20%',
+  ghostMessageUp: {
+    top: '15%',
     left: '50%',
-    transform: [{ translateX: -40 }],
+    transform: [{ translateX: -60 }],
   },
-  ghostButtonRight: {
+  ghostMessageRight: {
     top: '50%',
-    right: '10%',
-    transform: [{ translateY: -20 }],
+    right: '5%',
+    transform: [{ translateY: -15 }],
   },
-  ghostButtonLeft: {
+  ghostMessageLeft: {
     top: '50%',
-    left: '10%',
-    transform: [{ translateY: -20 }],
+    left: '5%',
+    transform: [{ translateY: -15 }],
   },
-  ghostButtonDown: {
-    bottom: '20%',
+  ghostMessageDown: {
+    bottom: '15%',
     left: '50%',
-    transform: [{ translateX: -40 }],
+    transform: [{ translateX: -60 }],
   },
-  ghostButtonStyle: {
-    minWidth: 80,
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.sm,
+  messageBoxGreen: {
+    backgroundColor: '#FFFACD', // Light yellow background
+    borderWidth: 1,
+    borderColor: '#32CD32', // Green border
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    minWidth: 100,
+    alignItems: 'center',
+  },
+  messageBoxRed: {
+    backgroundColor: '#FFFACD', // Light yellow background
+    borderWidth: 1,
+    borderColor: '#DC143C', // Red border
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    minWidth: 100,
+    alignItems: 'center',
+  },
+  messageTextGreen: {
+    color: '#32CD32', // Green text
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  messageTextRed: {
+    color: '#DC143C', // Red text
+    fontSize: 14,
+    fontWeight: '600',
   },
   actions: {
     flexDirection: 'row',
