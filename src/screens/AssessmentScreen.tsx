@@ -311,21 +311,21 @@ export default function AssessmentScreen() {
     const exitY = direction === 'up' ? -screenHeight * 1.5 : 
                  direction === 'down' ? screenHeight * 1.5 : 0;
     
-    // Animate card out with more dramatic movement
+    // Animate card out with more dramatic movement (slowed by 80%)
     Animated.parallel([
       Animated.timing(pan, {
         toValue: { x: exitX, y: exitY },
-        duration: 400,
+        duration: 2000, // 400ms * 5 = 2000ms (80% slower)
         useNativeDriver: false,
       }),
       Animated.timing(rotate, {
         toValue: direction === 'left' ? -30 : direction === 'right' ? 30 : 0,
-        duration: 400,
+        duration: 2000, // 400ms * 5 = 2000ms (80% slower)
         useNativeDriver: false,
       }),
       Animated.timing(scale, {
         toValue: 0.8,
-        duration: 400,
+        duration: 2000, // 400ms * 5 = 2000ms (80% slower)
         useNativeDriver: false,
       }),
     ]).start(() => {
