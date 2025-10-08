@@ -1,0 +1,13 @@
+{
+  "sourceOfTruth": "questions.ts: Question.reverse === true",
+  "reverseIds": [52, 53, 54, 55, 56, 57],
+  "notes": [
+    { "id": 52, "category": "qualityPresence", "impact": "UP/RIGHT reduce QP; LEFT/DOWN increase" },
+    { "id": 53, "category": "physicalCloseness", "impact": "UP/RIGHT reduce PC; LEFT/DOWN increase" },
+    { "id": 54, "category": "supportiveActions", "impact": "UP/RIGHT reduce SA; LEFT/DOWN increase" },
+    { "id": 55, "category": "type1", "impact": "UP/RIGHT reduce T1; LEFT/DOWN increase" },
+    { "id": 56, "category": "type7", "impact": "UP/RIGHT reduce T7; LEFT/DOWN increase" },
+    { "id": 57, "category": "type2", "impact": "UP/RIGHT reduce T2; LEFT/DOWN increase" }
+  ],
+  "version": "v1.0"
+}
