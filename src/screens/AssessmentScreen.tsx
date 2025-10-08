@@ -545,7 +545,7 @@ export default function AssessmentScreen() {
       {/* Ghost Answer Messages - Static messages attached to ghost cards */}
       {isSwiping && (
         <View style={styles.ghostAnswerMessages}>
-          {/* Strongly Agree - Green message for UP swipe */}
+          {/* Strongly Agree - Purple message for UP swipe */}
           <Animated.View 
             style={[
               styles.ghostMessage,
@@ -566,12 +566,12 @@ export default function AssessmentScreen() {
               }
             ]}
           >
-            <View style={styles.messageBoxGreen}>
-              <Text style={styles.messageTextGreen}>Strongly Agree!</Text>
+            <View style={styles.messageBoxPurple}>
+              <Text style={styles.messageTextPurple}>Strongly Agree!</Text>
             </View>
           </Animated.View>
           
-          {/* Slightly Agree - Green message for RIGHT swipe */}
+          {/* Slightly Agree - Blue message for RIGHT swipe */}
           <Animated.View 
             style={[
               styles.ghostMessage,
@@ -592,12 +592,12 @@ export default function AssessmentScreen() {
               }
             ]}
           >
-            <View style={styles.messageBoxGreen}>
-              <Text style={styles.messageTextGreen}>Slightly Agree</Text>
+            <View style={styles.messageBoxBlue}>
+              <Text style={styles.messageTextBlue}>Slightly Agree</Text>
             </View>
           </Animated.View>
           
-          {/* Slightly Disagree - Red message for LEFT swipe */}
+          {/* Slightly Disagree - Orange message for LEFT swipe */}
           <Animated.View 
             style={[
               styles.ghostMessage,
@@ -618,8 +618,8 @@ export default function AssessmentScreen() {
               }
             ]}
           >
-            <View style={styles.messageBoxRed}>
-              <Text style={styles.messageTextRed}>Slightly Disagree</Text>
+            <View style={styles.messageBoxOrange}>
+              <Text style={styles.messageTextOrange}>Slightly Disagree</Text>
             </View>
           </Animated.View>
           
@@ -753,6 +753,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: isDesktop ? 28 : 26,
     marginBottom: 30,
+    paddingHorizontal: 20, // Add padding to prevent text overlap
+    flexWrap: 'wrap', // Allow text wrapping
   },
   swipeIndicators: {
     position: 'absolute',
@@ -929,35 +931,92 @@ const styles = StyleSheet.create({
     left: '50%',
     transform: [{ translateX: -60 }],
   },
-  messageBoxGreen: {
-    backgroundColor: '#FFFACD', // Light yellow background
-    borderWidth: 1,
-    borderColor: '#32CD32', // Green border
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    minWidth: 100,
+  // Purple for UP swipe (Strongly Agree)
+  messageBoxPurple: {
+    backgroundColor: '#F3E5F5', // Light purple background (lighter than border)
+    borderWidth: 2,
+    borderColor: '#9C27B0', // Purple border (darker)
+    borderRadius: 20, // Pill shape
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    minWidth: 120,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  messageBoxRed: {
-    backgroundColor: '#FFFACD', // Light yellow background
-    borderWidth: 1,
-    borderColor: '#DC143C', // Red border
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    minWidth: 100,
-    alignItems: 'center',
-  },
-  messageTextGreen: {
-    color: '#32CD32', // Green text
+  messageTextPurple: {
+    color: '#7B1FA2', // Darker purple text for better contrast
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
+  },
+  
+  // Blue for RIGHT swipe (Slightly Agree)
+  messageBoxBlue: {
+    backgroundColor: '#E3F2FD', // Light blue background (lighter than border)
+    borderWidth: 2,
+    borderColor: '#2196F3', // Blue border (darker)
+    borderRadius: 20, // Pill shape
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    minWidth: 120,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  messageTextBlue: {
+    color: '#1976D2', // Darker blue text for better contrast
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  
+  // Orange for LEFT swipe (Slightly Disagree)
+  messageBoxOrange: {
+    backgroundColor: '#FFF3E0', // Light orange background (lighter than border)
+    borderWidth: 2,
+    borderColor: '#FF9800', // Orange border (darker)
+    borderRadius: 20, // Pill shape
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    minWidth: 120,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  messageTextOrange: {
+    color: '#F57C00', // Darker orange text for better contrast
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  
+  // Red for DOWN swipe (Strongly Disagree)
+  messageBoxRed: {
+    backgroundColor: '#FFEBEE', // Light red background (lighter than border)
+    borderWidth: 2,
+    borderColor: '#F44336', // Red border (darker)
+    borderRadius: 20, // Pill shape
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    minWidth: 120,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   messageTextRed: {
-    color: '#DC143C', // Red text
+    color: '#D32F2F', // Darker red text for better contrast
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   actions: {
     flexDirection: 'row',
