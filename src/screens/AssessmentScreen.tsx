@@ -93,6 +93,7 @@ export default function AssessmentScreen() {
   const [canAnswer, setCanAnswer] = useState(true);
   const [validationWarning, setValidationWarning] = useState<string | null>(null);
   const [fastAnswerCount, setFastAnswerCount] = useState(0);
+  const [isSwiping, setIsSwiping] = useState(false);
 
   // Animation values
   const pan = useRef(new Animated.ValueXY()).current;
@@ -206,6 +207,7 @@ export default function AssessmentScreen() {
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: () => {
+        setIsSwiping(true);
         pan.setOffset({
           x: (pan.x as any)._value || 0,
           y: (pan.y as any)._value || 0,
@@ -219,6 +221,7 @@ export default function AssessmentScreen() {
         rotate.setValue(rotateValue);
       },
       onPanResponderRelease: (_, gesture) => {
+        setIsSwiping(false);
         pan.flattenOffset();
         
         const { dx, dy } = gesture;
@@ -466,21 +469,23 @@ export default function AssessmentScreen() {
             </View>
           )}
           
-          {/* Swipe Indicators */}
-          <View style={styles.swipeIndicators}>
-            <View style={[styles.indicator, styles.indicatorUp]}>
-              <Text style={styles.indicatorText}>YES!</Text>
+          {/* Swipe Indicators - Only show during active swiping */}
+          {isSwiping && (
+            <View style={styles.swipeIndicators}>
+              <View style={[styles.indicator, styles.indicatorUp]}>
+                <Text style={styles.indicatorText}>YES!</Text>
+              </View>
+              <View style={[styles.indicator, styles.indicatorRight]}>
+                <Text style={styles.indicatorText}>Yes</Text>
+              </View>
+              <View style={[styles.indicator, styles.indicatorLeft]}>
+                <Text style={styles.indicatorText}>No</Text>
+              </View>
+              <View style={[styles.indicator, styles.indicatorDown]}>
+                <Text style={styles.indicatorText}>NO!</Text>
+              </View>
             </View>
-            <View style={[styles.indicator, styles.indicatorRight]}>
-              <Text style={styles.indicatorText}>Yes</Text>
-            </View>
-            <View style={[styles.indicator, styles.indicatorLeft]}>
-              <Text style={styles.indicatorText}>No</Text>
-            </View>
-            <View style={[styles.indicator, styles.indicatorDown]}>
-              <Text style={styles.indicatorText}>NO!</Text>
-            </View>
-          </View>
+          )}
 
           {/* Modern Clickable Areas for Web */}
           {Platform.OS === 'web' && (
