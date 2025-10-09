@@ -153,3 +153,16 @@
 - DST creates an **ecosystem** (relationship + digital personality)
 - Adaptive Testing is **nice-to-have** but complex and risky
 - Focus on **high-value, achievable** features first
+
+---
+
+## 📚 DOCUMENTATION ADDED (2025-10-09)
+
+### Reference Archives
+- `test-scoring-methods.md` - How LL/EN/MBTI/Big5 score (reference only)
+
+### Future Scope (Expanded)
+- `digital-personality-types.md` - DST specification (expanded from previous)
+- `dynamic-test-model.md` - Ongoing assessment design (expanded from previous)
+
+**Status:** Templates ready for content
