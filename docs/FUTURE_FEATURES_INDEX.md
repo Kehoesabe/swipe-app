@@ -10,9 +10,9 @@
 
 ### 1. NEW ASSESSMENT TYPES
 
-#### Digital Swipe Test (DST)
+#### Digital Personality Types (DST)
 - **Status:** Planned (Post-MVP Phase 2)
-- **Documentation:** `docs/DIGITAL_SWIPE_TEST.md` ⚠️ NEEDS CREATION
+- **Documentation:** `docs/digital-personality-types.md` ✅ CREATED
 - **Key Concepts:**
   - Digital personality assessment (separate from relationship Swipe Type)
   - 15-25 questions
@@ -21,9 +21,9 @@
 - **Dependencies:** Core Swipe Type MVP must be complete
 - **Priority:** Medium
 
-#### Dynamic Personality Test (Ongoing Assessment)
+#### Dynamic Test Model (Ongoing Assessment)
 - **Status:** Planned (Post-MVP Phase 3)
-- **Documentation:** `docs/DYNAMIC_PERSONALITY_TEST.md` ⚠️ NEEDS CREATION
+- **Documentation:** `docs/dynamic-test-model.md` ✅ CREATED
 - **Key Concepts:**
   - "Rolling profile" - personality evolves over time
   - Periodic check-ins (mini-assessments: 3-5 questions)
@@ -85,10 +85,12 @@
 ## ⚠️ MISSING DOCUMENTATION
 
 **Need to Create:**
-1. `DIGITAL_SWIPE_TEST.md` - Full DST specification
-2. `DYNAMIC_PERSONALITY_TEST.md` - Ongoing testing system
-3. `ADAPTIVE_TESTING.md` - CAT research and approach
-4. `REASSESSMENT_FEATURES.md` - User re-testing flows
+1. `adaptive-testing.md` - CAT research and approach
+2. `reassessment-features.md` - User re-testing flows
+
+**✅ Created:**
+1. `digital-personality-types.md` - DST specification
+2. `dynamic-test-model.md` - Ongoing testing system
 
 **Action Items:**
 - [ ] User to provide previous DST documentation
@@ -103,8 +105,8 @@
 | Feature | Status | Priority | Effort | Value |
 |---------|--------|----------|--------|-------|
 | Couples Compatibility | Documented | HIGH | Medium | High |
-| Dynamic Testing | Planned | HIGH | High | Very High |
-| Digital Swipe Test (DST) | Planned | MEDIUM | Medium | Medium |
+| Dynamic Test Model | Planned | HIGH | High | Very High |
+| Digital Personality Types (DST) | Planned | MEDIUM | Medium | Medium |
 | Adaptive Testing (CAT) | Research | LOW | Very High | Uncertain |
 | Reassessment UI | Conceptual | MEDIUM | Low | Medium |
 
