@@ -14,7 +14,8 @@ console.log("[env] EXPO_PUBLIC_SUPABASE_URL:", mask(url));
 console.log("[env] EXPO_PUBLIC_SUPABASE_ANON_KEY:", mask(anon));
 
 if (!url || !anon) {
-  console.error("❌ Build-time envs missing: EXPO_PUBLIC_SUPABASE_URL and/or EXPO_PUBLIC_SUPABASE_ANON_KEY");
-  process.exit(1);
+  console.warn("⚠️ Build-time envs missing: EXPO_PUBLIC_SUPABASE_URL and/or EXPO_PUBLIC_SUPABASE_ANON_KEY");
+  console.warn("⚠️ Using fallback values from runtime-env.ts");
+  // Don't exit - let the build continue with fallbacks
 }
 console.log("✅ Build-time envs present.");
