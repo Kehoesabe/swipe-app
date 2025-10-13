@@ -58,3 +58,5 @@
 - Choose a variant (A/B/C) via a simple flag: `paywallVariant = 'A' | 'B' | 'C'`.  
 - Persist the chosen variant per user/session for consistent experience.  
 - Keep type-specific color accents for the result card, not the paywall background.
+
+

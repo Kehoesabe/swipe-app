@@ -2,7 +2,7 @@
 import React from 'react';
 import { Pressable, Text, StyleSheet, ViewStyle, Platform } from 'react-native';
 import * as Haptics from 'expo-haptics';
-import { Colors, Spacing, Typography, Radius } from '../theme/tokens';
+import { Colors, Spacing, Typography } from '../theme';
 
 type Props = { title: string; onPress: () => void; variant?: 'primary'|'secondary'; style?: ViewStyle; disabled?: boolean; };
 
@@ -38,7 +38,7 @@ export default function Button({ title, onPress, variant='primary', style, disab
 }
 
 const styles = StyleSheet.create({
-  base: { minHeight: 52, paddingHorizontal: Spacing.xl, borderRadius: Radius.lg, alignItems: 'center', justifyContent: 'center' },
+  base: { minHeight: 52, paddingHorizontal: Spacing.xl, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   primary: { backgroundColor: Colors.primary },
   secondary: { borderWidth: 1, borderColor: Colors.secondary, backgroundColor: 'transparent' },
   text: { ...Typography.body, fontWeight: '600' },

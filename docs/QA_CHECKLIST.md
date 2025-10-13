@@ -3,6 +3,10 @@
 ## Purpose
 Ensure item quality, scale reliability, distinctness between constructs, and healthy session behavior before launch.
 
+**Content Quality:** For profile content quality standards, see [Profile Standards v2.1](PROFILE_STANDARDS_V2.1.md).
+
+**AI Coordination:** For multi-LLM workflow coordination during content generation and testing, see [Multi-LLM Coordination](MULTI_LLM_COORDINATION.md).
+
 ---
 
 ## Item-Level Targets
@@ -86,3 +90,5 @@ For each **Connection Style** (6 scales) and **Enneagram Type** (9 scales):
 - [ ] Median time 5–7 minutes
 - [ ] Longstring & speeding rates within expectations
 - [ ] Analytics events firing (see `docs/ANALYTICS_SPEC.md`)
+- [ ] Profile content meets quality standards (see [Profile Standards v2.1](PROFILE_STANDARDS_V2.1.md))
+

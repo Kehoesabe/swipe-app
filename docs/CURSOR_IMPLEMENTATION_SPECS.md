@@ -64,3 +64,5 @@ const result = scoreAssessment(answersMap); // { means, primarySwipeType, blendS
 ## Testing
 - Use `validationScenarios.ts` to produce expected results.
 - Compare with `validateTestResult.ts` diffs; fail tests on mismatch.
+
+

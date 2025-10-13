@@ -1,5 +1,9 @@
 # UI QA Checklist (Assessment & Results)
 
+**Content Quality:** For profile content quality standards, see [Profile Standards v2.1](PROFILE_STANDARDS_V2.1.md).
+
+**AI Coordination:** For multi-LLM workflow coordination during UI testing, see [Multi-LLM Coordination](MULTI_LLM_COORDINATION.md).
+
 - Dark background `#1A1A2E`; no white panels anywhere.
 - Question card centered; `borderRadius≈28`; soft shadow; card color `#2D3748`.
 - Ghost card appears on drag, lags slightly (≈85% of main translation) and fades with distance.
@@ -13,3 +17,4 @@
 - Progress bar animates fill over 400ms; counter reads "Question X / 57".
 - Results screen: dark, centered, no red/white; type color accent only.
 - Screen reader announces pending choice at threshold and final on commit.
+

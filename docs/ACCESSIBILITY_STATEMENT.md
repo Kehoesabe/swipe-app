@@ -32,3 +32,5 @@ We welcome your feedback on the accessibility of Swipe Type:
 - Platforms: iOS, Android, macOS, Windows
 
 We will keep this statement updated as we improve.
+
+

@@ -47,3 +47,5 @@ testScenarios.forEach(s => {
 - All scenarios produce expected primary type, top style/type, and identical normalized means (ε ≤ 1e−6).
 - Blend present only when margins < 0.20 per framework.
 - Centroid tie-break invoked only when both margins < 0.05 or mapping key missing.
+
+

@@ -112,3 +112,5 @@ describe('Swipe Type Simple Validation', () => {
     expect(invalidResult2).toBeTruthy();
   });
 });
+
+

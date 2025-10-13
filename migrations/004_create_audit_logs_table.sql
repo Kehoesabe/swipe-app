@@ -27,3 +27,5 @@ CREATE INDEX IF NOT EXISTS audit_user_idx
   ON audit_logs (actor_user_id);
 
 COMMIT;
+
+

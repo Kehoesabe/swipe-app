@@ -47,3 +47,5 @@
 ## Compliance
 - GDPR/CCPA basics: export/delete
 - Email: separate transactional vs marketing (double opt-in for marketing)
+
+

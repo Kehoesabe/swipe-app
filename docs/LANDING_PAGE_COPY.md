@@ -122,3 +122,5 @@ Yes—$12 for the report tied to your latest assessment.
 **Subhead:** 57 quick swipes. Clear language. Practical next steps.  
 **Primary CTA (button):** Start the assessment (3 min)  
 **Secondary CTA:** Learn more about the 8 types
+
+

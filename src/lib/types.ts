@@ -11,8 +11,8 @@ export type EnneagramType =
   | 'type6' | 'type7' | 'type8' | 'type9';
 
 export type SwipeTypeName = 
-  | 'solidRock' | 'watchfulGuard' | 'warmHeart' | 'gentleGuide'
-  | 'deepConnector' | 'authenticSoul' | 'progressPartner' | 'freeSpirit';
+  | 'directNurturer' | 'directPlanner' | 'clearCommunicator' | 'gentleGiver'
+  | 'thoughtfulSupporter' | 'harmonizer' | 'steadyHelper' | 'strategicPartner';
 
 export interface AssessmentResult {
   sessionId: string;
@@ -42,3 +42,4 @@ export interface ReportSection {
   inConflict: string;
   adviceForPartners: string;
 }
+

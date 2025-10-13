@@ -88,3 +88,5 @@ This framework turns two individual Swipe Types into an at-a-glance compatibilit
 - Output: rating + narrative (pair description) + top 3 strengths + top 3 watchouts + 3 rituals.
 - Store: keep raw subscale means to enable tailored tips.
 - A/B: test whether to show rating label or a 0–100 bar only.
+
+

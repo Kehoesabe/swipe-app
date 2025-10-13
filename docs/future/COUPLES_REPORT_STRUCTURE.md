@@ -102,3 +102,5 @@ Turn two individual Swipe Type results into a practical, shared playbook. The re
 - Side-by-side needs
 - Shared agreements and calendars
 - Visual pair identity (dual motifs, combined accent)
+
+

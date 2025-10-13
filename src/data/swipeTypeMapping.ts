@@ -1,91 +1,121 @@
 import { SwipeTypeName } from '../lib/types';
 
 export const swipeTypeMapping: Record<string, SwipeTypeName> = {
-  // Solid Rock (8 combos)
-  'verbalAffirmation_type6': 'solidRock',
-  'verbalAffirmation_type9': 'solidRock',
-  'qualityPresence_type6': 'solidRock',
-  'qualityPresence_type9': 'solidRock',
-  'physicalCloseness_type9': 'solidRock',
-  'supportiveActions_type6': 'solidRock',
-  'supportiveActions_type9': 'solidRock',
-  'physicalCloseness_type1': 'solidRock',
+  // Direct Nurturer (8 combos) - High Directness + High Tangibility
+  'verbalAffirmation_type6': 'directNurturer',
+  'verbalAffirmation_type9': 'directNurturer',
+  'qualityPresence_type6': 'directNurturer',
+  'qualityPresence_type9': 'directNurturer',
+  'physicalCloseness_type9': 'directNurturer',
+  'supportiveActions_type6': 'directNurturer',
+  'supportiveActions_type9': 'directNurturer',
+  'physicalCloseness_type1': 'directNurturer',
   
-  // Watchful Guard (7 combos)
-  'supportiveActions_type8': 'watchfulGuard',
-  'physicalCloseness_type8': 'watchfulGuard',
-  'physicalCloseness_type6': 'watchfulGuard',
-  'verbalAffirmation_type8': 'watchfulGuard',
-  'thoughtfulGestures_type8': 'watchfulGuard',
-  'thoughtfulGestures_type9': 'watchfulGuard',
-  'qualityPresence_type8': 'watchfulGuard',
+  // Direct Planner (7 combos) - High Directness + Low Tangibility
+  'supportiveActions_type8': 'directPlanner',
+  'physicalCloseness_type8': 'directPlanner',
+  'physicalCloseness_type6': 'directPlanner',
+  'verbalAffirmation_type8': 'directPlanner',
+  'thoughtfulGestures_type8': 'directPlanner',
+  'thoughtfulGestures_type9': 'directPlanner',
+  'qualityPresence_type8': 'directPlanner',
   
-  // Warm Heart (6 combos)
-  'physicalCloseness_type2': 'warmHeart',
-  'thoughtfulGestures_type2': 'warmHeart',
-  'verbalAffirmation_type2': 'warmHeart',
-  'supportiveActions_type2': 'warmHeart',
-  'qualityPresence_type2': 'warmHeart',
-  'sharedGrowth_type2': 'warmHeart',
+  // Clear Communicator (6 combos) - High Directness + Mid Tangibility
+  'physicalCloseness_type2': 'clearCommunicator',
+  'thoughtfulGestures_type2': 'clearCommunicator',
+  'verbalAffirmation_type2': 'clearCommunicator',
+  'supportiveActions_type2': 'clearCommunicator',
+  'qualityPresence_type2': 'clearCommunicator',
+  'sharedGrowth_type2': 'clearCommunicator',
   
-  // Gentle Guide (6 combos)
-  'verbalAffirmation_type1': 'gentleGuide',
-  'qualityPresence_type1': 'gentleGuide',
-  'thoughtfulGestures_type1': 'gentleGuide',
-  'thoughtfulGestures_type6': 'gentleGuide',
-  'thoughtfulGestures_type9': 'gentleGuide',
+  // Gentle Giver (6 combos) - Low Directness + High Tangibility
+  'verbalAffirmation_type1': 'gentleGiver',
+  'qualityPresence_type1': 'gentleGiver',
+  'thoughtfulGestures_type1': 'gentleGiver',
+  'thoughtfulGestures_type6': 'gentleGiver',
+  'thoughtfulGestures_type9': 'gentleGiver',
   
-  // Deep Connector (7 combos)
-  'qualityPresence_type4': 'deepConnector',
-  'qualityPresence_type5': 'deepConnector',
-  'verbalAffirmation_type4': 'deepConnector',
-  'verbalAffirmation_type5': 'deepConnector',
-  'physicalCloseness_type4': 'deepConnector',
-  'thoughtfulGestures_type4': 'deepConnector',
-  'thoughtfulGestures_type5': 'deepConnector',
+  // Thoughtful Supporter (7 combos) - Low Directness + Mid Tangibility
+  'qualityPresence_type4': 'thoughtfulSupporter',
+  'qualityPresence_type5': 'thoughtfulSupporter',
+  'verbalAffirmation_type4': 'thoughtfulSupporter',
+  'verbalAffirmation_type5': 'thoughtfulSupporter',
+  'physicalCloseness_type4': 'thoughtfulSupporter',
+  'thoughtfulGestures_type4': 'thoughtfulSupporter',
+  'thoughtfulGestures_type5': 'thoughtfulSupporter',
   
-  // Authentic Soul (6 combos)
-  'physicalCloseness_type5': 'authenticSoul',
-  'supportiveActions_type4': 'authenticSoul',
-  'supportiveActions_type5': 'authenticSoul',
-  'sharedGrowth_type4': 'authenticSoul',
-  'sharedGrowth_type5': 'authenticSoul',
-  'thoughtfulGestures_type3': 'authenticSoul',
+  // Harmonizer (6 combos) - Low Directness + Low Tangibility
+  'physicalCloseness_type5': 'harmonizer',
+  'supportiveActions_type4': 'harmonizer',
+  'supportiveActions_type5': 'harmonizer',
+  'sharedGrowth_type4': 'harmonizer',
+  'sharedGrowth_type5': 'harmonizer',
+  'thoughtfulGestures_type3': 'harmonizer',
   
-  // Progress Partner (8 combos)
-  'sharedGrowth_type1': 'progressPartner',
-  'sharedGrowth_type3': 'progressPartner',
-  'sharedGrowth_type8': 'progressPartner',
-  'supportiveActions_type1': 'progressPartner',
-  'supportiveActions_type3': 'progressPartner',
-  'qualityPresence_type3': 'progressPartner',
-  'verbalAffirmation_type3': 'progressPartner',
-  'physicalCloseness_type3': 'progressPartner',
+  // Steady Helper (8 combos) - Mid Directness + High Tangibility
+  'sharedGrowth_type1': 'steadyHelper',
+  'sharedGrowth_type3': 'steadyHelper',
+  'sharedGrowth_type8': 'steadyHelper',
+  'supportiveActions_type1': 'steadyHelper',
+  'supportiveActions_type3': 'steadyHelper',
+  'qualityPresence_type3': 'steadyHelper',
+  'verbalAffirmation_type3': 'steadyHelper',
+  'physicalCloseness_type3': 'steadyHelper',
   
-  // Free Spirit (6 combos)
-  'thoughtfulGestures_type7': 'freeSpirit',
-  'qualityPresence_type7': 'freeSpirit',
-  'verbalAffirmation_type7': 'freeSpirit',
-  'sharedGrowth_type7': 'freeSpirit',
-  'physicalCloseness_type7': 'freeSpirit',
-  'supportiveActions_type7': 'freeSpirit',
+  // Strategic Partner (6 combos) - Mid Directness + Low Tangibility
+  'thoughtfulGestures_type7': 'strategicPartner',
+  'qualityPresence_type7': 'strategicPartner',
+  'verbalAffirmation_type7': 'strategicPartner',
+  'sharedGrowth_type7': 'strategicPartner',
+  'physicalCloseness_type7': 'strategicPartner',
+  'supportiveActions_type7': 'strategicPartner',
 };
 
 export function getSwipeType(connectionStyle: string, enneagramType: string): SwipeTypeName {
   const key = `${connectionStyle}_${enneagramType}`;
-  return swipeTypeMapping[key] || 'solidRock'; // fallback
+  return swipeTypeMapping[key] || 'directNurturer'; // fallback
 }
 
 export function getDisplayName(swipeType: SwipeTypeName): string {
   const names: Record<SwipeTypeName, string> = {
-    solidRock: 'Solid Rock',
-    watchfulGuard: 'Watchful Guard',
-    warmHeart: 'Warm Heart',
-    gentleGuide: 'Gentle Guide',
-    deepConnector: 'Deep Connector',
-    authenticSoul: 'Authentic Soul',
-    progressPartner: 'Progress Partner',
-    freeSpirit: 'Free Spirit',
+    directNurturer: 'Direct Nurturer',
+    directPlanner: 'Direct Planner',
+    clearCommunicator: 'Clear Communicator',
+    gentleGiver: 'Gentle Giver',
+    thoughtfulSupporter: 'Thoughtful Supporter',
+    harmonizer: 'Harmonizer',
+    steadyHelper: 'Steady Helper',
+    strategicPartner: 'Strategic Partner',
   };
   return names[swipeType] || swipeType;
+}
+
+export function getTypeInfo(swipeType: SwipeTypeName): {
+  typeNumber: number;
+  typeName: string;
+  directness: 'Low' | 'Mid' | 'High';
+  tangibility: 'Low' | 'Mid' | 'High';
+} {
+  const typeInfo: Record<SwipeTypeName, {
+    typeNumber: number;
+    typeName: string;
+    directness: 'Low' | 'Mid' | 'High';
+    tangibility: 'Low' | 'Mid' | 'High';
+  }> = {
+    directNurturer: { typeNumber: 1, typeName: 'Direct Nurturer', directness: 'High', tangibility: 'High' },
+    directPlanner: { typeNumber: 8, typeName: 'Direct Planner', directness: 'High', tangibility: 'Low' },
+    clearCommunicator: { typeNumber: 3, typeName: 'Clear Communicator', directness: 'High', tangibility: 'Mid' },
+    gentleGiver: { typeNumber: 4, typeName: 'Gentle Giver', directness: 'Low', tangibility: 'High' },
+    thoughtfulSupporter: { typeNumber: 5, typeName: 'Thoughtful Supporter', directness: 'Low', tangibility: 'Mid' },
+    harmonizer: { typeNumber: 6, typeName: 'Harmonizer', directness: 'Low', tangibility: 'Low' },
+    steadyHelper: { typeNumber: 2, typeName: 'Steady Helper', directness: 'Mid', tangibility: 'High' },
+    strategicPartner: { typeNumber: 7, typeName: 'Strategic Partner', directness: 'Mid', tangibility: 'Low' },
+  };
+  
+  return typeInfo[swipeType] || {
+    typeNumber: 1,
+    typeName: 'Direct Nurturer',
+    directness: 'High',
+    tangibility: 'High'
+  };
 }

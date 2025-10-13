@@ -38,3 +38,5 @@ We measure both—then map your combined pattern to one of **8 Swipe Types**. Ea
 - **Built for action.** Insight is step one; next steps are what matter. We give you both.
 
 Have questions? Visit our [Contact & Support](/contact) page—we're happy to help.
+
+

@@ -20,3 +20,5 @@ testCases.forEach(({ connection, enneagram, expected }) => {
 });
 
 console.log('\nMapping test complete!');
+
+

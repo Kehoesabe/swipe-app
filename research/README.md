@@ -58,3 +58,5 @@ Fill placeholders in both matrices with **large-N**, **representative** (non-stu
 - [ ] Benchmarks reflect DFI-aware targets, reliability minima, and mixed-type policy.  
 - [ ] GS placeholders present (≥3 per track).  
 - [ ] Ready for `feature/academic-scoring-v2` once GS integration completes.
+
+

@@ -104,3 +104,5 @@ The Admin Panel is an internal, web-based dashboard for:
 - Read-focused panels with a few high-value actions:
   - Grant premium, refund single purchase, resend emails, delete account.
 - Charts & tables backed by efficient queries and indexes already defined in Batch 7.
+
+

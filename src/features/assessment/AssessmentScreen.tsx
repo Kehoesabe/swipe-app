@@ -36,3 +36,5 @@ const styles = StyleSheet.create({
   top: { paddingHorizontal: Spacing.lg },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 });
+
+

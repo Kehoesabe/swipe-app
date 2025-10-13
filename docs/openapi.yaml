@@ -321,3 +321,5 @@ paths:
         '200':
           description: Premium report payload
         '403': { description: Not purchased }
+
+

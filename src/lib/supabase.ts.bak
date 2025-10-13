@@ -1,0 +1,24 @@
+// src/lib/supabase.ts
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
+
+// Standard client: DB, auth, storage
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// Helper for Supabase Functions to guarantee Authorization header
+export async function callFn<T = unknown>(
+  name: string,
+  opts?: { body?: any; headers?: Record<string, string> }
+): Promise<{ data: T | null; error: any }> {
+  // Supabase Functions expect an Authorization header. The anon key is public-by-design.
+  const { data, error } = await supabase.functions.invoke<T>(name, {
+    body: opts?.body,
+    headers: {
+      Authorization: `Bearer ${supabaseAnonKey}`,
+      ...opts?.headers,
+    },
+  });
+  return { data, error };
+}

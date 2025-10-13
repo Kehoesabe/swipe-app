@@ -273,3 +273,5 @@ Forward motion meets meaning. Partner seeks results; Connector seeks resonance. 
 **Communication Tips**
 - Two-phase decisions: map facts *and* feelings.
 - Agree on when to decide vs. when to discuss.
+
+

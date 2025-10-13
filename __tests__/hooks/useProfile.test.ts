@@ -52,7 +52,7 @@ describe('useProfile', () => {
     expect(result.current.user?.name).toBe('John Doe');
     expect(result.current.user?.email).toBe('john@example.com');
     expect(result.current.error).toBeNull();
-  }, 10000);
+  });
 
   test('handles profile update', async () => {
     const { result } = renderHook(() => useProfile());
@@ -87,7 +87,7 @@ describe('useProfile', () => {
     expect(result.current.user?.name).toBe('Jane Doe');
     expect(result.current.user?.bio).toBe('Updated bio');
     expect(Alert.alert).toHaveBeenCalledWith('Success', 'Profile updated successfully');
-  }, 10000);
+  });
 
   test('handles avatar upload', async () => {
     const { result } = renderHook(() => useProfile());
@@ -118,7 +118,7 @@ describe('useProfile', () => {
 
     expect(result.current.user?.avatar).toBe(imageUri);
     expect(Alert.alert).toHaveBeenCalledWith('Success', 'Avatar updated successfully');
-  }, 10000);
+  });
 
   test('handles refresh profile', async () => {
     const { result } = renderHook(() => useProfile());
@@ -147,7 +147,7 @@ describe('useProfile', () => {
     });
 
     expect(result.current.user).toBeDefined();
-  }, 10000);
+  });
 
   test('handles update when no user is loaded', async () => {
     const { result } = renderHook(() => useProfile());

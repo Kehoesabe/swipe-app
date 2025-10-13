@@ -93,3 +93,5 @@ All major cards via **Stripe**. We never store your card details.
 - **Press:** press@swipetype.com
 
 > Accessibility note: Every interactive element on this page should have clear labels and meet WCAG AA color contrast. Keep form fields large and error messages specific.
+
+

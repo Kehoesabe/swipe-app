@@ -1,5 +1,7 @@
 # SWIPE TYPE MVP - CURRENT STATE & SCOPE
 
+**AI Coordination:** For multi-LLM workflow coordination during MVP development, see [Multi-LLM Coordination](../MULTI_LLM_COORDINATION.md).
+
 ## PRODUCT DEFINITION
 **Single Assessment Tool:**
 - 57-question relationship personality assessment (expanding to 72)
@@ -88,3 +90,4 @@ Launch → take assessment (72 swipes) → submit → see free summary → optio
 ☐ Playwright smoke passes locally
 ☐ Minimal analytics captured (6 events)
 ☐ README/env/flags updated; main remains stable
+

@@ -162,3 +162,5 @@
 ### GET `/api/report/premium/:assessment_id`
 **Auth:** Owner + `premium_unlocked=true`  
 **Response:** Full premium report payload
+
+

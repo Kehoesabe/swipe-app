@@ -1,5 +1,7 @@
 # 4-LLM EVALUATION SYNTHESIS
 
+**AI Coordination:** For current multi-LLM workflow coordination, see [Multi-LLM Coordination](../MULTI_LLM_COORDINATION.md).
+
 ## EXECUTIVE SUMMARY
 All 4 LLMs (Claude, ChatGPT, Google AI, Gemini) evaluated Swipe Type MVP design.
 
@@ -64,3 +66,4 @@ All 4 LLMs (Claude, ChatGPT, Google AI, Gemini) evaluated Swipe Type MVP design.
 
 ### 🔴 ISSUE #2: Axis Formula Under-Specified
 **Current Spec Says:**
+

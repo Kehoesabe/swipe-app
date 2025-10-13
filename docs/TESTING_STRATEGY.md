@@ -1,5 +1,7 @@
 # Testing Strategy — Swipe Type (MVP)
 
+**AI Coordination:** For multi-LLM workflow coordination, see [Multi-LLM Coordination](MULTI_LLM_COORDINATION.md).
+
 ## Testing Pyramid
 1) **Unit** — utils, scoring, components with logic
 2) **Integration** — API routes + DB (Supabase) + Stripe mocks
@@ -44,6 +46,12 @@
 - User search/detail
 - Manual premium unlock (with reason) → audit log entry
 - Refund process updates DB + revokes premium → audit log
+
+### 5) Content Quality Testing
+- Profile content follows [Profile Standards v2.1](PROFILE_STANDARDS_V2.1.md)
+- All 8 Swipe Type profiles meet quality thresholds
+- Content review process completed per standards
+- User feedback on content quality and accuracy
 
 ---
 
@@ -109,6 +117,7 @@ npx playwright test
 - [ ] Accessibility: focus states, screen reader labels, contrast AA
 - [ ] Error/empty/loading states present and clear
 - [ ] No console errors; no PII in logs
+- [ ] Profile content meets quality standards (see [Profile Standards v2.1](PROFILE_STANDARDS_V2.1.md))
 
 ---
 
@@ -122,3 +131,4 @@ npx playwright test
 ## Maintenance
 - Add regression tests for each production bug fixed.
 - Record flaky tests and stabilize within 48h.
+

@@ -1,5 +1,9 @@
 # ANALYTICS SPEC
 
+**Content Analytics:** For content quality metrics and effectiveness measurement, see [Profile Standards v2.1](PROFILE_STANDARDS_V2.1.md) Section 12.2.
+
+**AI Coordination:** For multi-LLM workflow coordination during analytics implementation, see [Multi-LLM Coordination](MULTI_LLM_COORDINATION.md).
+
 ## Principles
 - No raw free-text PII in analytics payloads.
 - Question text is never logged; use `questionId`, `framework`, `category`.
@@ -70,3 +74,4 @@
 - Completion rate, median duration, speeding %, longstring %, undo rate
 - Paywall view → purchase conversion
 - Blend rate and margin distributions
+

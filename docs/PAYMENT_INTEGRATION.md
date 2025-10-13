@@ -68,3 +68,5 @@
 ## Analytics
 - Track: results_view → paywall_click → checkout_open → success/cancel
 - Correlate by `assessment_id` + `session_id`
+
+

@@ -89,6 +89,17 @@ export class AssessmentScoring {
       isAtEnd: this.currentQuestionIndex >= this.questions.length
     });
     
+    // CRITICAL DEBUG: Track question 56 transition
+    if (this.currentQuestionIndex === 56) {
+      console.log(`🚨 CRITICAL: Moving to question 56 (index ${this.currentQuestionIndex})`);
+      console.log(`🔍 Q56 transition state:`, {
+        currentIndex: this.currentQuestionIndex,
+        responsesLength: this.responses.length,
+        totalQuestions: this.questions.length,
+        isAtEnd: this.currentQuestionIndex >= this.questions.length
+      });
+    }
+    
     // Check bounds before returning
     if (this.currentQuestionIndex >= this.questions.length) {
       return null; // Assessment complete
@@ -327,14 +338,14 @@ export class AssessmentScoring {
    */
   private getSwipeTypeDisplayName(swipeType: SwipeTypeName): string {
     const names: Record<SwipeTypeName, string> = {
-      solidRock: 'Solid Rock',
-      watchfulGuard: 'Watchful Guard',
-      warmHeart: 'Warm Heart',
-      gentleGuide: 'Gentle Guide',
-      deepConnector: 'Deep Connector',
-      authenticSoul: 'Authentic Soul',
-      progressPartner: 'Progress Partner',
-      freeSpirit: 'Free Spirit',
+      directNurturer: 'Direct Nurturer',
+      directPlanner: 'Direct Planner',
+      clearCommunicator: 'Clear Communicator',
+      gentleGiver: 'Gentle Giver',
+      thoughtfulSupporter: 'Thoughtful Supporter',
+      harmonizer: 'Harmonizer',
+      steadyHelper: 'Steady Helper',
+      strategicPartner: 'Strategic Partner',
     };
     return names[swipeType] || swipeType;
   }

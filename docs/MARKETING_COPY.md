@@ -76,3 +76,5 @@ Swipe Type is a mobile-first self-discovery tool focused on relationship clarity
 
 **Media Contact**  
 press@example.com
+
+

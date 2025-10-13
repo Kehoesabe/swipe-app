@@ -109,3 +109,5 @@
 - Rotate keys periodically and on personnel changes.
 - Do not log secrets or PII.
 - Keep Supabase service role strictly server-side.
+
+

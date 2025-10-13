@@ -1,5 +1,9 @@
 # Admin Features — Detailed Spec (MVP)
 
+**Content Management:** For content quality standards and review processes, see [Profile Standards v2.1](PROFILE_STANDARDS_V2.1.md).
+
+**AI Coordination:** For multi-LLM workflow coordination during admin feature development, see [Multi-LLM Coordination](MULTI_LLM_COORDINATION.md).
+
 ## Shared UI Components & Patterns
 - Global search bar (email, userId, assessmentId, stripe_session_id).
 - Table components with sort/filter/paginate; CSV export where noted.
@@ -181,3 +185,4 @@
 - Privileged actions require confirmation + reason + audit record.
 - Role gates enforced server-side and client-side.
 - No secret keys ever exposed client-side.
+

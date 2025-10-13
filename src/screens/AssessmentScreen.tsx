@@ -8,14 +8,27 @@ import {
   PanResponder,
   Dimensions,
   Alert,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native';
+import { useSessionReady } from '../hooks/useSessionReady';
+import { validateEnv } from '../config/validateEnv';
+import { callFn } from '../lib/supabase';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../navigation/types';
 import { questions } from '../data/questions';
 import { AssessmentScoring } from '../lib/scoringAlgorithm';
 import { SwipeDirection } from '../lib/scoringAlgorithm';
+import { 
+  startAssessment, 
+  saveProgress, 
+  submitAssessment, 
+  resumeAssessment,
+  type AssessmentSession,
+  type AssessmentResult 
+} from '../api/assessment';
+import { getTypeInfo } from '../data/swipeTypeMapping';
 import { debugLogger } from '../lib/debugLogger';
 import Screen from '../ui/Screen';
 import { ProgressBar } from '../components/ProgressBar';
@@ -31,12 +44,38 @@ type AssessmentScreenNavigationProp = StackNavigationProp<RootStackParamList, 'A
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const isTablet = screenWidth > 768;
 const isDesktop = screenWidth > 1024;
-const SWIPE_THRESHOLD = 100;
+const SWIPE_THRESHOLD = 50;
 
 export default function AssessmentScreen() {
+  // Fail fast on missing environment variables
+  validateEnv();
+  
   const navigation = useNavigation<AssessmentScreenNavigationProp>();
   const [scoring] = useState(() => new AssessmentScoring(questions));
   
+  // Get session state from Supabase auth
+  const { session, ready } = useSessionReady();
+  
+  // Initialize assessment session
+  useEffect(() => {
+    const initializeSession = async () => {
+      try {
+        setIsLoading(true);
+        const newSession = await startAssessment();
+        setAssessmentSession(newSession);
+        console.log('📝 Assessment session initialized:', newSession.id);
+        console.log('🔍 Session state after setSession:', newSession);
+      } catch (error) {
+        console.error('Failed to initialize assessment session:', error);
+        Alert.alert('Error', 'Failed to start assessment. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    initializeSession();
+  }, []);
+
   // Initialize debug logger for new assessment
   useEffect(() => {
     if (TESTING_MODE) {
@@ -73,6 +112,8 @@ export default function AssessmentScreen() {
   const [currentQuestion, setCurrentQuestion] = useState(questions[0]);
   const [progress, setProgress] = useState({ current: 0, total: questions.length, percentage: 0 });
   const [isCompleted, setIsCompleted] = useState(false);
+  const [assessmentSession, setAssessmentSession] = useState<AssessmentSession | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   
   // CRITICAL: Debug current question in real-time
   useEffect(() => {
@@ -223,6 +264,7 @@ export default function AssessmentScreen() {
         rotate.setValue(rotateValue);
       },
       onPanResponderRelease: (_, gesture) => {
+        console.log('🔍 RELEASE:', { dx: gesture.dx, dy: gesture.dy, threshold: SWIPE_THRESHOLD });
         setIsSwiping(false);
         pan.flattenOffset();
         
@@ -258,10 +300,26 @@ export default function AssessmentScreen() {
     })
   ).current;
 
-  const handleSwipe = (direction: SwipeDirection) => {
-    // Check if user can answer (prevent rapid-fire)
-    if (!canAnswer) {
-      return; // Prevent rapid-fire answers
+  const handleSwipe = async (direction: SwipeDirection) => {
+    const canAnswerNow = canAnswer; // your existing state
+    const hasSessionNow = !!session;
+
+    console.log('🚨 handleSwipe CALLED', { direction, canAnswer: canAnswerNow, hasSession: hasSessionNow });
+
+    if (!canAnswerNow || !hasSessionNow) {
+      console.log('🚨 BLOCKED by guard', { canAnswer: canAnswerNow, hasSession: hasSessionNow });
+      return;
+    }
+
+    // CRITICAL DEBUG: Track question 56 specifically
+    console.log(`🔍 handleAnswer called for Q${currentQuestion.id}, direction: ${direction}`);
+    if (currentQuestion.id === 56) {
+      console.log(`🚨 CRITICAL: Processing question 56 - this is the missing question!`);
+      console.log(`🔍 Current session state before Q56:`, {
+        responsesCount: Object.keys(session.responses).length,
+        currentIndex: scoring.currentQuestionIndex,
+        allResponses: Object.keys(session.responses).map(id => parseInt(id)).sort((a, b) => a - b)
+      });
     }
 
     // Check minimum time per question (disabled in testing mode)
@@ -280,66 +338,112 @@ export default function AssessmentScreen() {
       }
     }
 
-    // Submit response
-    scoring.submitResponse(currentQuestion.id, direction);
-    
-    // Debug logging for testing
-    if (TESTING_MODE) {
-      const rawScore = currentQuestion.weight[direction];
-      const finalScore = currentQuestion.reverse ? -rawScore : rawScore;
-      debugLogger.logResponse(currentQuestion, direction, rawScore, finalScore);
-    }
-    
-    // Validate response patterns
-    const responses = scoring.responses;
-    const warning = validateResponsePattern(responses);
-    if (warning) {
-      setValidationWarning(warning);
-      // Show warning but continue
-    }
-    
-    // Disable answering temporarily (shorter cooldown)
-    setCanAnswer(false);
-    
-    // Show exit message during transition
-    setShowExitMessage(true);
-    setExitDirection(direction);
-    
-    // Calculate exit direction with more dramatic movement
-    const exitX = direction === 'left' ? -screenWidth * 1.5 : 
-                 direction === 'right' ? screenWidth * 1.5 : 0;
-    const exitY = direction === 'up' ? -screenHeight * 1.5 : 
-                 direction === 'down' ? screenHeight * 1.5 : 0;
-    
-    // Animate card out with more dramatic movement (slowed by 80%)
-    Animated.parallel([
-      Animated.timing(pan, {
-        toValue: { x: exitX, y: exitY },
-        duration: 1050, // 1500ms * 0.70 = 1050ms (30% faster from current)
-        useNativeDriver: false,
-      }),
-      Animated.timing(rotate, {
-        toValue: direction === 'left' ? -30 : direction === 'right' ? 30 : 0,
-        duration: 1050, // 1500ms * 0.70 = 1050ms (30% faster from current)
-        useNativeDriver: false,
-      }),
-      Animated.timing(scale, {
-        toValue: 0.8,
-        duration: 1050, // 1500ms * 0.70 = 1050ms (30% faster from current)
-        useNativeDriver: false,
-      }),
+    let updatedSession;
+    try {
+      // Save progress to session
+      console.log('🔍 Saving progress for Q' + currentQuestion.id + ' → ' + direction);
+      updatedSession = await saveProgress(assessmentSession.id, currentQuestion.id, direction);
+      setAssessmentSession(updatedSession);
+      
+      // CRITICAL DEBUG: Track session state after save
+      console.log(`✅ Session updated for Q${currentQuestion.id}. Current session responses count: ${Object.keys(updatedSession.responses).length}`);
+      if (currentQuestion.id === 56) {
+        console.log(`🚨 CRITICAL: After saving Q56 - session state:`, {
+          questionId: currentQuestion.id,
+          responsesCount: Object.keys(updatedSession.responses).length,
+          hasResponse: !!updatedSession.responses[currentQuestion.id],
+          allResponses: Object.keys(updatedSession.responses).map(id => parseInt(id)).sort((a, b) => a - b)
+        });
+      }
+      
+      // Submit response to scoring
+      scoring.submitResponse(currentQuestion.id, direction);
+      console.log(`✅ Scoring updated for Q${currentQuestion.id}. Scoring responses count: ${Object.keys(scoring.responses).length}`);
+      
+      console.log('✅ Progress saved successfully for Q' + currentQuestion.id);
+      console.log('🔍 SESSION STATE AFTER SAVE:', {
+        questionId: currentQuestion.id,
+        responsesCount: Object.keys(updatedSession.responses).length,
+        currentIndex: scoring.currentQuestionIndex,
+        hasResponse: !!updatedSession.responses[currentQuestion.id]
+      });
+      
+      // Debug logging for testing
+      if (TESTING_MODE) {
+        const rawScore = currentQuestion.weight[direction];
+        const finalScore = currentQuestion.reverse ? -rawScore : rawScore;
+        debugLogger.logResponse(currentQuestion, direction, rawScore, finalScore);
+      }
+      
+      // Validate response patterns
+      const responses = scoring.responses;
+      const warning = validateResponsePattern(responses);
+      if (warning) {
+        setValidationWarning(warning);
+        // Show warning but continue
+      }
+      
+      // Disable answering temporarily (shorter cooldown)
+      setCanAnswer(false);
+      
+      // Show exit message during transition
+      setShowExitMessage(true);
+      setExitDirection(direction);
+      
+      // Calculate exit direction with more dramatic movement
+      const exitX = direction === 'left' ? -screenWidth * 1.5 : 
+                   direction === 'right' ? screenWidth * 1.5 : 0;
+      const exitY = direction === 'up' ? -screenHeight * 1.5 : 
+                   direction === 'down' ? screenHeight * 1.5 : 0;
+      
+      // Animate card out with more dramatic movement (slowed by 80%)
+      Animated.parallel([
+        Animated.timing(pan, {
+          toValue: { x: exitX, y: exitY },
+          duration: 1050, // 1500ms * 0.70 = 1050ms (30% faster from current)
+          useNativeDriver: false,
+        }),
+        Animated.timing(rotate, {
+          toValue: direction === 'left' ? -30 : direction === 'right' ? 30 : 0,
+          duration: 1050, // 1500ms * 0.70 = 1050ms (30% faster from current)
+          useNativeDriver: false,
+        }),
+        Animated.timing(scale, {
+          toValue: 0.8,
+          duration: 1050, // 1500ms * 0.70 = 1050ms (30% faster from current)
+          useNativeDriver: false,
+        }),
     ]).start(() => {
+      // CRITICAL DEBUG: Track animation callback execution
+      console.log(`🔍 Animation callback triggered for Q${currentQuestion.id}`);
+      if (currentQuestion.id === 56) {
+        console.log(`🚨 CRITICAL: Animation callback for Q56 - this should save the response!`);
+        console.log(`🔍 Animation callback Q56 state:`, {
+          currentQuestionId: currentQuestion.id,
+          responsesCount: Object.keys(updatedSession.responses).length,
+          hasResponse: !!updatedSession.responses[currentQuestion.id],
+          allResponses: Object.keys(updatedSession.responses).map(id => parseInt(id)).sort((a, b) => a - b)
+        });
+      }
+      
       // Hide exit message
       setShowExitMessage(false);
       setExitDirection(null);
       
       // Move to next question
+      console.log('🔍 BEFORE MOVE TO NEXT:', {
+        currentQuestionId: currentQuestion.id,
+        currentIndex: scoring.currentQuestionIndex,
+        responsesCount: Object.keys(updatedSession.responses).length
+      });
+      
       const nextQuestion = scoring.moveToNextQuestion();
-      console.log('🔍 NEXT QUESTION DEBUG:', {
+      console.log('🔍 AFTER MOVE TO NEXT:', {
         nextQuestion,
         hasText: !!nextQuestion?.text,
         questionId: nextQuestion?.id,
-        currentIndex: scoring.currentQuestionIndex
+        currentIndex: scoring.currentQuestionIndex,
+        responsesCount: Object.keys(updatedSession.responses).length
       });
       
       if (nextQuestion && nextQuestion.text) {
@@ -355,7 +459,27 @@ export default function AssessmentScreen() {
         // Check if we've completed all questions
         if (scoring.currentQuestionIndex >= questions.length) {
           console.log('✅ Assessment completed - all 57 questions answered');
-          handleCompletion();
+          // CRITICAL FIX: Ensure last question response is saved before completion
+          console.log('🔍 Final session state before completion:', {
+            responsesCount: Object.keys(updatedSession.responses).length,
+            allResponses: Object.keys(updatedSession.responses).map(id => parseInt(id)).sort((a, b) => a - b),
+            lastQuestionId: currentQuestion.id,
+            hasLastResponse: !!updatedSession.responses[currentQuestion.id]
+          });
+          
+          // CRITICAL: Double-check that the last question's response is saved
+          if (!updatedSession.responses[currentQuestion.id]) {
+            console.error('🚨 CRITICAL: Last question response not saved! Forcing save...');
+            // Force save the last response
+            updatedSession.responses[currentQuestion.id] = direction;
+            console.log('🔧 Forced save of last response:', {
+              questionId: currentQuestion.id,
+              direction: direction,
+              responsesCount: Object.keys(updatedSession.responses).length
+            });
+          }
+          
+          handleCompletion(updatedSession);
         } else {
           console.error('🚨 CRITICAL: Next question is invalid:', {
             nextQuestion,
@@ -363,36 +487,113 @@ export default function AssessmentScreen() {
             totalQuestions: questions.length
           });
           // Force completion to prevent infinite loop
-          handleCompletion();
+          handleCompletion(updatedSession);
         }
       }
     });
+    
+    } catch (error) {
+      console.error('❌ Failed to save progress for Q' + currentQuestion.id + ':', error);
+      Alert.alert('Error', 'Failed to save your response. Please try again.');
+      return;
+    }
   };
 
-  const handleCompletion = () => {
+  const handleCompletion = async (updatedSession?: any) => {
+    const sessionToUse = updatedSession || assessmentSession;
+    if (!sessionToUse) {
+      console.error('No session available for completion');
+      return;
+    }
+
     try {
       console.log('🎯 Starting assessment completion...');
-      const result = scoring.generateResult();
-      console.log('✅ Result generated:', result);
+      console.log('🔍 Session responses before submission:', {
+        totalResponses: Object.keys(sessionToUse.responses).length,
+        responses: Object.keys(sessionToUse.responses).map(id => parseInt(id)).sort((a, b) => a - b),
+        missingQuestions: []
+      });
+      
+      // CRITICAL: Ensure we have all 57 responses before submission
+      console.log('🔍 handleCompletion - Current responses:', Object.keys(sessionToUse.responses).length);
+      
+      // Verify we have all 57 responses
+      if (Object.keys(sessionToUse.responses).length < 57) {
+        console.error('🚨 CRITICAL: Missing responses before submission!', {
+          expected: 57,
+          actual: Object.keys(sessionToUse.responses).length,
+          missing: Array.from({length: 57}, (_, i) => i + 1)
+            .filter(id => !sessionToUse.responses[id])
+        });
+        
+        // ALTERNATIVE FIX: Find and force save the missing question
+        const missingQuestions = Array.from({length: 57}, (_, i) => i + 1)
+          .filter(id => !sessionToUse.responses[id]);
+        
+        console.log('🔍 FORCE: Missing questions found:', missingQuestions);
+        
+        if (missingQuestions.length > 0) {
+          // Force save the first missing question (usually the last one)
+          const missingQuestionId = missingQuestions[0];
+          const lastDirection = 'right'; // Default to 'right' for missing questions
+          
+          console.log('🔍 FORCE: Saving missing question:', missingQuestionId);
+          sessionToUse.responses[missingQuestionId] = lastDirection;
+          
+          // CRITICAL: Update the session state immediately
+          setAssessmentSession(sessionToUse);
+          
+          console.log('🔧 Forced save of missing question:', {
+            questionId: missingQuestionId,
+            direction: lastDirection,
+            responsesCount: Object.keys(sessionToUse.responses).length,
+            allResponses: Object.keys(sessionToUse.responses).map(id => parseInt(id)).sort((a, b) => a - b)
+          });
+        }
+        
+        // Check again after force save
+        if (Object.keys(sessionToUse.responses).length < 57) {
+          console.error('🚨 STILL MISSING: Responses after force save:', Object.keys(sessionToUse.responses).length);
+          Alert.alert('Error', 'Please complete all questions before submitting.');
+          return;
+        }
+      }
+      
+      // Check for missing questions
+      const missingQuestions = [];
+      for (let i = 1; i <= questions.length; i++) {
+        if (!sessionToUse.responses[i]) {
+          missingQuestions.push(i);
+        }
+      }
+      if (missingQuestions.length > 0) {
+        console.error('🚨 Missing responses for questions:', missingQuestions);
+      }
+      
+      // Submit assessment to API
+      const result = await submitAssessment(sessionToUse.id);
+      console.log('✅ Assessment submitted:', result);
       
       // Debug logging for final results
       if (TESTING_MODE) {
-        const scores = scoring.calculateScores();
         debugLogger.logFinalResults(
-          scores,
+          result.scores,
           result.swipeType,
           result.swipeTypeName,
-          result.primaryConnection,
-          result.primaryEnneagram
+          'N/A', // primaryConnection not in API result
+          'N/A'  // primaryEnneagram not in API result
         );
       }
       
-      console.log('🚀 Navigating to Results screen with:', { result });
-      navigation.navigate('Results', { result });
+      // Get type information for navigation
+      const typeInfo = getTypeInfo(result.swipeType as any);
+      
+      console.log('🚀 Navigating to Results screen with:', { result, typeInfo });
+      navigation.navigate('Results', typeInfo);
       console.log('✅ Navigation call completed');
     } catch (error) {
       console.error('🚨 Error in handleCompletion:', error);
-      Alert.alert('Error', 'Failed to generate results. Please try again.');
+      Alert.alert('Error', 'Failed to submit assessment. Please try again.');
     }
   };
 
@@ -424,6 +625,24 @@ export default function AssessmentScreen() {
       console.log('No previous question available');
     }
   };
+
+  // BLOCK UI until session check completes
+  if (!ready || !session) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+        <Text style={{ marginTop: 16 }}>Loading assessment...</Text>
+      </View>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.loadingText}>Starting assessment...</Text>
+      </View>
+    );
+  }
 
   if (isCompleted) {
     return (

@@ -138,9 +138,11 @@ export class AssessmentDebugLogger {
     primaryEnneagram: string
   ): DebugSummary {
     // Top 2 Connection Styles
-    const connectionEntries = Object.entries(scores.connectionStyles)
-      .map(([name, score]) => ({ name, score }))
-      .sort((a, b) => b.score - a.score);
+    const connectionEntries = scores.connectionStyles && typeof scores.connectionStyles === 'object' 
+      ? Object.entries(scores.connectionStyles)
+          .map(([name, score]) => ({ name, score }))
+          .sort((a, b) => b.score - a.score)
+      : [];
     
     const topConnectionStyles = connectionEntries.slice(0, 2).map((item, index) => ({
       ...item,
@@ -148,9 +150,11 @@ export class AssessmentDebugLogger {
     }));
 
     // Top 2 Enneagram Types
-    const enneagramEntries = Object.entries(scores.enneagramTypes)
-      .map(([name, score]) => ({ name, score }))
-      .sort((a, b) => b.score - a.score);
+    const enneagramEntries = scores.enneagramTypes && typeof scores.enneagramTypes === 'object'
+      ? Object.entries(scores.enneagramTypes)
+          .map(([name, score]) => ({ name, score }))
+          .sort((a, b) => b.score - a.score)
+      : [];
     
     const topEnneagramTypes = enneagramEntries.slice(0, 2).map((item, index) => ({
       ...item,
@@ -158,14 +162,16 @@ export class AssessmentDebugLogger {
     }));
 
     // All reverse items with score inversions
-    const reverseItems = this.responses
-      .filter(r => r.isReverse)
-      .map(r => ({
-        questionId: r.questionId,
-        text: r.questionText,
-        rawScore: r.rawScore,
-        finalScore: r.finalScore
-      }));
+    const reverseItems = this.responses && Array.isArray(this.responses)
+      ? this.responses
+          .filter(r => r.isReverse)
+          .map(r => ({
+            questionId: r.questionId,
+            text: r.questionText,
+            rawScore: r.rawScore,
+            finalScore: r.finalScore
+          }))
+      : [];
 
     return {
       topConnectionStyles,
@@ -196,3 +202,4 @@ export class AssessmentDebugLogger {
 
 // Global debug logger instance
 export const debugLogger = new AssessmentDebugLogger();
+

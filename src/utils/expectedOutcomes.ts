@@ -8,14 +8,14 @@
 
 /* ---------- Types ---------- */
 export type SwipeType =
-  | "Solid Rock"
-  | "Watchful Guard"
-  | "Warm Heart"
-  | "Gentle Guide"
-  | "Deep Connector"
-  | "Authentic Soul"
-  | "Progress Partner"
-  | "Free Spirit";
+  | "Direct Nurturer"
+  | "Direct Planner"
+  | "Clear Communicator"
+  | "Gentle Giver"
+  | "Thoughtful Supporter"
+  | "Harmonizer"
+  | "Steady Helper"
+  | "Strategic Partner";
 
 export type Direction = "up" | "right" | "left" | "down";
 
@@ -27,75 +27,75 @@ export type Direction = "up" | "right" | "left" | "down";
  * Enneagram: type1..type9
  */
 export const mapping54to8: Record<string, SwipeType> = {
-  /* Solid Rock (8) */
-  supportiveActions_type6: "Solid Rock",
-  supportiveActions_type9: "Solid Rock",
-  qualityPresence_type6: "Solid Rock",
-  qualityPresence_type9: "Solid Rock",
-  physicalCloseness_type9: "Solid Rock",
-  sharedGrowth_type6: "Solid Rock",
-  sharedGrowth_type9: "Solid Rock",
-  physicalCloseness_type1: "Solid Rock",
+  /* Direct Nurturer (8) */
+  supportiveActions_type6: "Direct Nurturer",
+  supportiveActions_type9: "Direct Nurturer",
+  qualityPresence_type6: "Direct Nurturer",
+  qualityPresence_type9: "Direct Nurturer",
+  physicalCloseness_type9: "Direct Nurturer",
+  sharedGrowth_type6: "Direct Nurturer",
+  sharedGrowth_type9: "Direct Nurturer",
+  physicalCloseness_type1: "Direct Nurturer",
 
-  /* Deep Connector (7) */
-  qualityPresence_type4: "Deep Connector",
-  qualityPresence_type5: "Deep Connector",
-  verbalAffirmation_type4: "Deep Connector",
-  verbalAffirmation_type5: "Deep Connector",
-  physicalCloseness_type4: "Deep Connector",
-  thoughtfulGestures_type4: "Deep Connector",
-  thoughtfulGestures_type5: "Deep Connector",
+  /* Thoughtful Supporter (7) */
+  qualityPresence_type4: "Thoughtful Supporter",
+  qualityPresence_type5: "Thoughtful Supporter",
+  verbalAffirmation_type4: "Thoughtful Supporter",
+  verbalAffirmation_type5: "Thoughtful Supporter",
+  physicalCloseness_type4: "Thoughtful Supporter",
+  thoughtfulGestures_type4: "Thoughtful Supporter",
+  thoughtfulGestures_type5: "Thoughtful Supporter",
 
-  /* Warm Heart (6) */
-  physicalCloseness_type2: "Warm Heart",
-  thoughtfulGestures_type2: "Warm Heart",
-  verbalAffirmation_type2: "Warm Heart",
-  supportiveActions_type2: "Warm Heart",
-  qualityPresence_type2: "Warm Heart",
-  sharedGrowth_type2: "Warm Heart",
+  /* Clear Communicator (6) */
+  physicalCloseness_type2: "Clear Communicator",
+  thoughtfulGestures_type2: "Clear Communicator",
+  verbalAffirmation_type2: "Clear Communicator",
+  supportiveActions_type2: "Clear Communicator",
+  qualityPresence_type2: "Clear Communicator",
+  sharedGrowth_type2: "Clear Communicator",
 
-  /* Progress Partner (8) */
-  sharedGrowth_type1: "Progress Partner",
-  sharedGrowth_type3: "Progress Partner",
-  sharedGrowth_type8: "Progress Partner",
-  supportiveActions_type1: "Progress Partner",
-  supportiveActions_type3: "Progress Partner",
-  qualityPresence_type3: "Progress Partner",
-  verbalAffirmation_type3: "Progress Partner",
-  physicalCloseness_type3: "Progress Partner",
+  /* Steady Helper (8) */
+  sharedGrowth_type1: "Steady Helper",
+  sharedGrowth_type3: "Steady Helper",
+  sharedGrowth_type8: "Steady Helper",
+  supportiveActions_type1: "Steady Helper",
+  supportiveActions_type3: "Steady Helper",
+  qualityPresence_type3: "Steady Helper",
+  verbalAffirmation_type3: "Steady Helper",
+  physicalCloseness_type3: "Steady Helper",
 
-  /* Free Spirit (6) */
-  thoughtfulGestures_type7: "Free Spirit",
-  qualityPresence_type7: "Free Spirit",
-  verbalAffirmation_type7: "Free Spirit",
-  sharedGrowth_type7: "Free Spirit",
-  physicalCloseness_type7: "Free Spirit",
-  supportiveActions_type7: "Free Spirit",
+  /* Strategic Partner (6) */
+  thoughtfulGestures_type7: "Strategic Partner",
+  qualityPresence_type7: "Strategic Partner",
+  verbalAffirmation_type7: "Strategic Partner",
+  sharedGrowth_type7: "Strategic Partner",
+  physicalCloseness_type7: "Strategic Partner",
+  supportiveActions_type7: "Strategic Partner",
 
-  /* Gentle Guide (6) */
-  verbalAffirmation_type1: "Gentle Guide",
-  verbalAffirmation_type6: "Gentle Guide",
-  verbalAffirmation_type9: "Gentle Guide",
-  qualityPresence_type1: "Gentle Guide",
-  thoughtfulGestures_type1: "Gentle Guide",
-  thoughtfulGestures_type6: "Gentle Guide",
+  /* Gentle Giver (6) */
+  verbalAffirmation_type1: "Gentle Giver",
+  verbalAffirmation_type6: "Gentle Giver",
+  verbalAffirmation_type9: "Gentle Giver",
+  qualityPresence_type1: "Gentle Giver",
+  thoughtfulGestures_type1: "Gentle Giver",
+  thoughtfulGestures_type6: "Gentle Giver",
 
-  /* Watchful Guard (7) */
-  supportiveActions_type8: "Watchful Guard",
-  physicalCloseness_type8: "Watchful Guard",
-  physicalCloseness_type6: "Watchful Guard",
-  verbalAffirmation_type8: "Watchful Guard",
-  thoughtfulGestures_type8: "Watchful Guard",
-  thoughtfulGestures_type9: "Watchful Guard",
-  qualityPresence_type8: "Watchful Guard",
+  /* Direct Planner (7) */
+  supportiveActions_type8: "Direct Planner",
+  physicalCloseness_type8: "Direct Planner",
+  physicalCloseness_type6: "Direct Planner",
+  verbalAffirmation_type8: "Direct Planner",
+  thoughtfulGestures_type8: "Direct Planner",
+  thoughtfulGestures_type9: "Direct Planner",
+  qualityPresence_type8: "Direct Planner",
 
-  /* Authentic Soul (6) */
-  physicalCloseness_type5: "Authentic Soul",
-  supportiveActions_type4: "Authentic Soul",
-  supportiveActions_type5: "Authentic Soul",
-  sharedGrowth_type4: "Authentic Soul",
-  sharedGrowth_type5: "Authentic Soul",
-  thoughtfulGestures_type3: "Authentic Soul",
+  /* Harmonizer (6) */
+  physicalCloseness_type5: "Harmonizer",
+  supportiveActions_type4: "Harmonizer",
+  supportiveActions_type5: "Harmonizer",
+  sharedGrowth_type4: "Harmonizer",
+  sharedGrowth_type5: "Harmonizer",
+  thoughtfulGestures_type3: "Harmonizer",
 };
 
 /* =================================================

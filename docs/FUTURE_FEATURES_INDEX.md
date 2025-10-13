@@ -2,6 +2,10 @@
 
 **Purpose:** Track all post-MVP features, their documentation location, and status.
 
+**Content Standards:** All content features must follow [Profile Standards v2.1](PROFILE_STANDARDS_V2.1.md) for quality and consistency.
+
+**AI Coordination:** For multi-LLM workflow coordination during feature development, see [Multi-LLM Coordination](MULTI_LLM_COORDINATION.md).
+
 **Last Updated:** 2025-10-08
 
 ---

@@ -1,5 +1,7 @@
 # MVP IMPLEMENTATION DECISIONS (Jan 2025)
 
+**AI Coordination:** For multi-LLM workflow coordination during MVP implementation, see [Multi-LLM Coordination](../MULTI_LLM_COORDINATION.md).
+
 ## PSYCHOMETRIC
 - 72 items total (6 per domain)
 - Equal-weight axis formulas documented
@@ -29,3 +31,4 @@ OUT: Couples features, dynamic testing, DST, advanced analytics
 - Checkout: Not functional ✗
 
 ## NEXT: Awaiting detailed spec from Claude/ChatGPT workstreams
+

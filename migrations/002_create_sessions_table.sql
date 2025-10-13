@@ -58,3 +58,5 @@ BEFORE UPDATE ON assessment_sessions
 FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
 COMMIT;
+
+

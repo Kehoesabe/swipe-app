@@ -57,3 +57,5 @@ Questions about these Terms: {{LEGAL_CONTACT_EMAIL}}
 Postal address (if applicable): {{COMPANY_POSTAL_ADDRESS}}
 
 *This document is provided for informational purposes and is not legal advice. Consider legal review for your jurisdiction.*
+
+
