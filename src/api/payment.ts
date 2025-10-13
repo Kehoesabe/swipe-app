@@ -14,7 +14,8 @@ import { SUPABASE_ANON_KEY, EDGE_FUNCTIONS_URL } from '../config/supabase';
 // Get Supabase anon key for Edge Functions
 const getAuthToken = () => {
   if (!SUPABASE_ANON_KEY) {
-    throw new Error('SUPABASE_ANON_KEY not configured. Please set EXPO_PUBLIC_SUPABASE_ANON_KEY in your .env file');
+    console.warn('SUPABASE_ANON_KEY not configured. Payment features will be limited.');
+    return 'mock-token';
   }
   return SUPABASE_ANON_KEY;
 };
