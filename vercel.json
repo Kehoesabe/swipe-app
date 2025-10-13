@@ -1,5 +1,5 @@
 ﻿{
-  "buildCommand": "node scripts/ci-assert-env.mjs && npx expo export -p web",
+  "buildCommand": "rm -rf dist && node scripts/ci-assert-env.mjs && npx expo export -p web",
   "outputDirectory": "dist",
   "framework": null
 }
