@@ -1,5 +1,4 @@
-﻿{
-  "buildCommand": "rm -rf dist && rm -rf .expo && rm -rf node_modules/.cache && node scripts/ci-assert-env.mjs && npx expo export -p web --clear",
-  "outputDirectory": "dist",
-  "framework": null
+{
+  "buildCommand": "npx expo export -p web",
+  "outputDirectory": "dist"
 }
