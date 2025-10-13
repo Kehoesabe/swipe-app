@@ -98,11 +98,12 @@ pids
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+dist/
 
 # Gatsby files
 .cache/
-public
+# Note: We want to keep public/index.html for fallback
+# public/
 
 # Storybook build outputs
 .out
