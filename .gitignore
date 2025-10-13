@@ -1,14 +1,11 @@
-# ── Node / JS toolchain
+﻿# Node / JS
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-package-lock.json
-pnpm-lock.yaml
-yarn.lock
 
-# ── Expo / React Native
+# Expo / React Native
 .expo/
 .expo-shared/
 dist/
@@ -18,16 +15,16 @@ ios/
 *.keystore
 *.jks
 
-# ── Next/Expo Router (if present)
+# Next/Expo Router caches (if present)
 .next/
 .out/
 .cache/
 
-# ── Vercel / build artifacts
+# Vercel
 .vercel/
 .vercel_build_output/
 
-# ── OS/editor junk
+# OS / Editor
 .DS_Store
 Thumbs.db
 *.swp
@@ -36,12 +33,12 @@ Thumbs.db
 !.vscode/settings.json
 !.vscode/extensions.json
 
-# ── Env files (public ones go in Vercel UI)
+# Env (public ones live in Vercel)
 .env
 .env.*
 !.env.example
 
-# ── Tests/coverage
+# Tests
 coverage/
 .jest/
 .vitest/
