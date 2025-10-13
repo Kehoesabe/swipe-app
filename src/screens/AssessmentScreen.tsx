@@ -12,7 +12,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { useSessionReady } from '../hooks/useSessionReady';
-import { validateEnv } from '../config/validateEnv';
+// validateEnv removed - now using runtime-env.ts with fallbacks
 import { callFn } from '../lib/supabase';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -47,8 +47,7 @@ const isDesktop = screenWidth > 1024;
 const SWIPE_THRESHOLD = 50;
 
 export default function AssessmentScreen() {
-  // Fail fast on missing environment variables
-  validateEnv();
+  // Environment variables are now handled by runtime-env.ts with fallbacks
   
   const navigation = useNavigation<AssessmentScreenNavigationProp>();
   const [scoring] = useState(() => new AssessmentScoring(questions));
