@@ -1,4 +1,4 @@
 {
-  "buildCommand": "npx expo export -p web",
+  "buildCommand": "npx expo export -p web && node scripts/postexport-patch.mjs",
   "outputDirectory": "dist"
 }
