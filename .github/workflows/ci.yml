@@ -1,0 +1,45 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-test-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'pnpm'
+
+      - name: Install
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+
+      - name: Guardrails (docs present + deprecated banners)
+        run: pnpm run guardrails:check
+
+      - name: Fail if .env.local is touched without explicit approval
+        run: |
+          if git fetch origin ${{ github.base_ref }} --depth=1 2>/dev/null; then true; fi
+          if [ -n "${{ github.event.pull_request.number }}" ]; then
+            git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '^\.env\.local$' && {
+              echo "::error :: .env.local changes require double approval and should not be in a PR. Remove the file and attach approval links in PR body."
+              exit 1
+            } || true
+          fi
+
+      - name: Typecheck
+        run: pnpm run -r --if-present typecheck
+
+      - name: Tests (no network)
+        env:
+          BLOCK_LIVE_NETWORK: 'true'
+        run: pnpm run -r --if-present test:ci || pnpm test -- --run
+
+      - name: Build (if present)
+        run: pnpm run -r --if-present build
