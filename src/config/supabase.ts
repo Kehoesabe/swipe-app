@@ -28,3 +28,5 @@ if (!SUPABASE_ANON_KEY) {
 if (!SUPABASE_URL.includes('supabase.co')) {
   console.warn('⚠️ Invalid Supabase URL format');
 }
+
+

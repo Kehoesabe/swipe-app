@@ -15,3 +15,4 @@ Use this matrix to rename chats in both LLMs. Keep **titles clean**; track the *
 | Test App – Big Push 1                     | SWIPE–13–Test App: Big Push 1–<DD Mon>          | CLD   |      |
 
 > After renaming, update `/docs/CHAT_INDEX.md`. Delete this file when complete.
+

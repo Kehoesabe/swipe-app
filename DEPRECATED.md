@@ -7,3 +7,4 @@ These files remain for historical context. Do not edit.
 - Scattered security notes → centralized in `SECURITY-GUIDELINES.md`
 
 Removal will occur after a stabilization period.
+

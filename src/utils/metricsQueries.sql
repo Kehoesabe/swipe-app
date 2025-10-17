@@ -256,3 +256,5 @@ WHERE ae.event = 'Results Viewed'
 GROUP BY DATE(ae.created_at)
 ORDER BY date DESC;
 
+
+

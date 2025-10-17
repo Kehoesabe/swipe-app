@@ -60,3 +60,5 @@
 - Keep type-specific color accents for the result card, not the paywall background.
 
 
+
+

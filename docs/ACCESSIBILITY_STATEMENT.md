@@ -34,3 +34,5 @@ We welcome your feedback on the accessibility of Swipe Type:
 We will keep this statement updated as we improve.
 
 
+
+

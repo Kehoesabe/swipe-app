@@ -47,3 +47,5 @@ COMMENT ON COLUMN audit_log.resource_id IS 'ID of the affected resource';
 COMMENT ON COLUMN audit_log.old_values IS 'Previous state (for updates)';
 COMMENT ON COLUMN audit_log.new_values IS 'New state (for creates/updates)';
 
+
+

@@ -49,3 +49,5 @@ testScenarios.forEach(s => {
 - Centroid tie-break invoked only when both margins < 0.05 or mapping key missing.
 
 
+
+

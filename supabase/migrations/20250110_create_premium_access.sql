@@ -66,3 +66,5 @@ COMMENT ON COLUMN premium_access.expires_at IS 'NULL means lifetime access';
 COMMENT ON COLUMN premium_access.granted_by IS 'Admin who granted access (NULL for purchases)';
 COMMENT ON COLUMN premium_access.reason IS 'Reason for access grant (purchase, admin, promo, etc.)';
 
+
+

@@ -81,3 +81,5 @@ COMMENT ON COLUMN purchases.stripe_payment_intent_id IS 'Stripe PaymentIntent ID
 COMMENT ON COLUMN purchases.stripe_session_id IS 'Stripe Checkout Session ID';
 COMMENT ON COLUMN purchases.metadata IS 'Additional payment metadata from Stripe';
 
+
+

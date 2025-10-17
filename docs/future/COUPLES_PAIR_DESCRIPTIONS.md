@@ -275,3 +275,5 @@ Forward motion meets meaning. Partner seeks results; Connector seeks resonance. 
 - Agree on when to decide vs. when to discuss.
 
 
+
+

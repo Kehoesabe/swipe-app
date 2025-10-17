@@ -66,3 +66,5 @@ const result = scoreAssessment(answersMap); // { means, primarySwipeType, blendS
 - Compare with `validateTestResult.ts` diffs; fail tests on mismatch.
 
 
+
+

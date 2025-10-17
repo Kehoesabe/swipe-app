@@ -86,3 +86,4 @@ This file summarizes the daily rhythm, triggers, and safety rules for the coordi
 ---
 
 **Remember:** Keep `SYNC_STATE.md` honest, update `CHAT_INDEX.md` consistently, use triggers appropriately, and always document handoffs clearly.
+

@@ -90,3 +90,5 @@ Write-Host "   - Webhook → premium_access created" -ForegroundColor Green
 Write-Host "   - check-premium returns true" -ForegroundColor Green
 Write-Host ""
 Write-Host "📚 Full testing guide: docs/EDGE_FUNCTIONS_SMOKE_TEST.md" -ForegroundColor Yellow
+
+

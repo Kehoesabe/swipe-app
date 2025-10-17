@@ -530,3 +530,5 @@ reading_level: "[Grade Level]"
 
 *This document serves as the definitive guide for Swipe Type profile creation and quality assurance. All team members involved in content creation, review, and maintenance must be familiar with these standards and apply them consistently.*
 
+
+

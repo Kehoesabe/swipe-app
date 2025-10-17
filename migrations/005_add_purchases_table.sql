@@ -172,3 +172,5 @@ COMMENT ON FUNCTION grant_premium_access IS 'Grants premium access to a user for
 COMMENT ON FUNCTION revoke_premium_access IS 'Revokes premium access for a user and assessment';
 COMMENT ON FUNCTION check_premium_access IS 'Checks if a user has active premium access for an assessment';
 
+
+

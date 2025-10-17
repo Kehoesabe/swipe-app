@@ -40,3 +40,5 @@ We measure both—then map your combined pattern to one of **8 Swipe Types**. Ea
 Have questions? Visit our [Contact & Support](/contact) page—we're happy to help.
 
 
+
+

@@ -41,3 +41,5 @@ console.log('🔧 Runtime Env Config:', {
   hasKey: Boolean(supabaseAnonKey),
   hasSupabase: runtimeEnv.HAS_SUPABASE
 });
+
+

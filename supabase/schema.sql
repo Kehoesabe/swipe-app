@@ -118,3 +118,5 @@ CREATE TRIGGER update_assessment_sessions_updated_at BEFORE UPDATE ON assessment
 
 CREATE TRIGGER update_payments_updated_at BEFORE UPDATE ON payments
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+

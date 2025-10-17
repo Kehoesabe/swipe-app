@@ -77,3 +77,5 @@ SELECT
 FROM purchases 
 WHERE stripe_payment_intent_id = 'pi_test_123456789';
 
+
+

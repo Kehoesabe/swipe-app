@@ -7,3 +7,4 @@ describe("PR template presence", () => {
     ).toBe(true);
   });
 });
+

@@ -85,3 +85,5 @@ echo "   - Webhook → premium_access created"
 echo "   - check-premium returns true"
 echo ""
 echo "📚 Full testing guide: docs/EDGE_FUNCTIONS_SMOKE_TEST.md"
+
+
