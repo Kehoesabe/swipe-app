@@ -1,0 +1,5 @@
+# Four sources of truth require review by owners
+.cursorrules               @danielkehoe
+DEVELOPMENT-WORKFLOW.md    @danielkehoe
+SECURITY-GUIDELINES.md     @danielkehoe
+TESTING-GUIDELINES.md      @danielkehoe
