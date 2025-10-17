@@ -1,5 +1,7 @@
 # Swipe Co - Love Language Test
 
+[![CI](https://github.com/danielkehoe/swipe/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/danielkehoe/swipe/actions/workflows/ci.yml)
+
 A focused Love Language personality test built with Expo, React Native, and TypeScript. Features a Tinder-style swipe interface for engaging self-discovery and relationship insights.
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
