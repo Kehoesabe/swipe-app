@@ -13,7 +13,7 @@ function walk(dir) {
     const p = join(dir, n);
     const st = statSync(p);
     if (st.isDirectory()) {
-      if (/node_modules|\.git|\.next|dist|build|coverage|\.turbo|\.vercel|\.cache|\.venv/.test(p)) return [];
+      if (/node_modules|\.git|\.next|dist|build|coverage|\.turbo|\.vercel|\.cache|\.venv/i.test(p)) return [];
       return walk(p);
     }
     return p.endsWith(".md") || p.endsWith(".mdx") ? [p] : [];
@@ -25,9 +25,12 @@ const missing = REQUIRED.filter((f) => {
   catch { return true; }
 });
 
-const deprecated = walk(ROOT).filter((p) =>
-  /(docs\/AGENT\.md$|(^|\/)CONTRIBUTING\.md$|PRE_?FLIGHT_?CHECK\.md$)/i.test(p)
-).filter((p) => !/DEPRECATED/i.test(readFileSync(p, "utf8")));
+const md = walk(ROOT);
+const deprecated = md
+  .filter((p) =>
+    /(docs\/AGENT\.md$|(^|\/)CONTRIBUTING\.md$|PRE_?FLIGHT_?CHECK\.md$)/i.test(p)
+  )
+  .filter((p) => !/DEPRECATED/i.test(readFileSync(p, "utf8")));
 
 if (missing.length || deprecated.length) {
   console.error("Guardrails check failed:");

@@ -13,15 +13,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: Install
         run: |
-          corepack enable
-          pnpm install --frozen-lockfile
+          npm ci
 
       - name: Guardrails (docs present + deprecated banners)
-        run: pnpm run guardrails:check
+        run: npm run guardrails:check
 
       - name: Fail if .env.local is touched without explicit approval
         run: |
@@ -34,12 +33,12 @@ jobs:
           fi
 
       - name: Typecheck
-        run: pnpm run -r --if-present typecheck
+        run: npm run type-check
 
       - name: Tests (no network)
         env:
           BLOCK_LIVE_NETWORK: 'true'
-        run: pnpm run -r --if-present test:ci || pnpm test -- --run
+        run: npm test -- --run
 
       - name: Build (if present)
-        run: pnpm run -r --if-present build
+        run: npm run build
