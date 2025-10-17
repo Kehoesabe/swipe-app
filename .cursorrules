@@ -1,257 +1,37 @@
-# Cursor Rules for Swipe App
-
-## Project Context
-This is an Expo + TypeScript mobile app using React Native and React Navigation. We target iOS, Android, and Web platforms.
-
-## Tech Stack
-- **Framework**: Expo SDK 54, React Native 0.81
-- **Language**: TypeScript (strict mode)
-- **Navigation**: React Navigation 7.x with bottom tabs
-- **State Management**: React hooks (useState, useContext)
-- **Styling**: React Native StyleSheet API
-- **Package Manager**: npm
-
-## Code Style & Standards
-
-### TypeScript
-- Use strict TypeScript - no `any` types unless absolutely necessary
-- Define interfaces for all props, state, and data structures
-- Use type inference where obvious, explicit types for function returns
-- Place types in `src/types/` for shared types, colocate component-specific types
-- Use `Record<string, unknown>` instead of object types when needed
-
-### React Native Components
-- Use functional components with hooks exclusively
-- Destructure props in function parameters
-- Use `React.FC` sparingly - prefer explicit prop types
-- Keep components small and focused (< 200 lines)
-- Extract complex logic into custom hooks in `src/hooks/`
-
-### File Organization
-- One component per file
-- Use PascalCase for component files: `HomeScreen.tsx`
-- Use camelCase for utility files: `formatDate.ts`
-- Use index files for clean imports: `components/index.ts`
-- Group related files in feature folders when appropriate
-
-### Imports
-- Order: React, React Native, third-party, local absolute, local relative
-- Use absolute imports from `src/` using TypeScript paths
-- Group and separate with blank lines
-```typescript
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { NavigationProp } from '@react-navigation/native';
-
-import { Colors, Spacing } from '@/constants';
-import { UserService } from '@/services';
-import { User } from '@/types';
-
-import { Header } from './components/Header';
-```
-
-### Styling
-- Use StyleSheet.create() for all styles
-- Define styles at bottom of file
-- Use constants from `src/constants/` for colors, spacing, typography
-- No inline styles except for dynamic values
-- Use Flexbox for layouts (default to column direction)
-- Consider different screen sizes - avoid hardcoded dimensions
-
-### Naming Conventions
-- Components: PascalCase (`UserProfile`)
-- Hooks: camelCase with 'use' prefix (`useUserData`)
-- Utilities: camelCase (`formatCurrency`)
-- Constants: UPPER_SNAKE_CASE (`API_BASE_URL`)
-- Interfaces/Types: PascalCase (`UserProfile`, `ApiResponse`)
-- Props interfaces: ComponentName + 'Props' (`UserProfileProps`)
-
-## Common Patterns
-
-### Screen Component Template
-```typescript
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Colors, Spacing } from '@/constants';
-
-interface ScreenNameProps {
-  // props here
-}
-
-export const ScreenName: React.FC<ScreenNameProps> = ({ prop1, prop2 }) => {
-  // hooks
-  // handlers
-  // effects
-  
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Screen Title</Text>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-    padding: Spacing.md,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: Colors.text,
-  },
-});
-```
-
-### Custom Hook Template
-```typescript
-import { useState, useEffect } from 'react';
-
-export const useCustomHook = (param: string) => {
-  const [data, setData] = useState<DataType | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    // effect logic
-  }, [param]);
-
-  return { data, loading, error };
-};
-```
-
-### Service/API Template
-```typescript
-// src/services/userService.ts
-import { User } from '@/types';
-
-const API_BASE_URL = 'https://api.example.com';
-
-export const UserService = {
-  async getUser(id: string): Promise<User> {
-    const response = await fetch(`${API_BASE_URL}/users/${id}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch user: ${response.statusText}`);
-    }
-    return response.json();
-  },
-  
-  async updateUser(id: string, data: Partial<User>): Promise<User> {
-    const response = await fetch(`${API_BASE_URL}/users/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to update user: ${response.statusText}`);
-    }
-    return response.json();
-  },
-};
-```
-
-## Error Handling
-- Always handle errors in async operations
-- Use try-catch blocks for API calls
-- Display user-friendly error messages
-- Log errors for debugging: `console.error('Context:', error)`
-- Provide fallback UI for error states
-
-## Performance
-- Use `React.memo()` for expensive components
-- Use `useMemo()` for expensive calculations
-- Use `useCallback()` for function props to memoized children
-- Avoid creating objects/arrays in render
-- Use FlatList for long lists, implement keyExtractor and renderItem properly
-
-## Testing Considerations
-- Write testable code - pure functions when possible
-- Keep side effects in hooks/services
-- Use dependency injection for services
-- Mock navigation and external dependencies
-
-## Platform-Specific Code
-```typescript
-import { Platform } from 'react-native';
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: Platform.OS === 'ios' ? 20 : 0,
-    ...Platform.select({
-      ios: { shadowOpacity: 0.3 },
-      android: { elevation: 5 },
-    }),
-  },
-});
-```
-
-## Navigation Patterns
-- Use typed navigation with proper parameter types
-- Define navigation types in `src/types/navigation.ts`
-- Pass minimal data through navigation params
-- Use navigation composition pattern for complex flows
-
-## State Management Guidelines
-- Start with local state (useState)
-- Lift state up only when needed by multiple components
-- Use Context API for global state (theme, auth)
-- Consider Zustand or Redux only for complex state needs
-
-## Security
-- Never commit API keys or secrets
-- Use environment variables for configuration
-- Sanitize user input
-- Validate data from API responses
-- Use HTTPS for all API calls
-
-## Accessibility
-- Use accessibilityLabel for interactive elements
-- Use accessibilityHint for context
-- Ensure sufficient color contrast
-- Support screen readers
-- Make touch targets at least 44x44 points
-
-## Comments & Documentation
-- Write self-documenting code - clear names over comments
-- Use JSDoc for complex functions and public APIs
-- Explain "why" not "what" in comments
-- Keep comments up to date with code changes
-- Document non-obvious behavior or workarounds
-
-## Git Commit Messages
-- Use conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`
-- Keep subject line under 50 characters
-- Use present tense: "add feature" not "added feature"
-- Reference issues: `fix: resolve navigation bug (#123)`
-
-## When Unsure
-1. Check existing code for patterns
-2. Refer to React Native and Expo documentation
-3. Prioritize readability and maintainability
-4. Ask before making architectural changes
-5. Test on multiple platforms when possible
-
-
+---
+source_of_truth: primary
+hierarchy: 1
+ownership: CTO+CPO
+project: SWIPE
+last_review: 2025-10-17
 ---
 
-# FILE: `.cursorrules`
-**Append this block to the END of the file.**
+# Core Rules — SWIPE
 
-```markdown
-# ==== AI WORKFLOW GUARDRAILS (Oct 2025) ====
-- Cursor is the single source of truth for code and commits.
-- Use **Claude 4.5 Sonnet only** for all in-IDE edits and diffs. Do not switch models unless Daniel explicitly enables a backup model for a short recovery window.
-- All code modifications must appear in Cursor's diff view; never modify files via terminal automation.
-- Never edit or overwrite `.env.local` or `.env` without double explicit confirmation from Daniel.
-- Treat `package.json` and `app.json`/`app.config.ts` as protected: propose changes, require double confirmation, and explain why.
-- Prefer minimal diffs. Preserve behavior unless Daniel requests a change in behavior.
-- If chat context is reset or switched, request a link to the latest handoff doc in `/handoffs/`.
+## Immutable Policies
+- NEVER commit secrets, keys, or tokens.
+- NEVER call live external APIs during tests/CI or without explicit written approval.
+- Double-approval REQUIRED before touching `.env.local` (link approvals in PR).
+- CI MUST pass on a clean branch before merge.
+- Use PowerShell-first on Windows when instructions differ by shell.
+- Cursor/LLMs MUST follow this file over any conflicting doc.
 
+## Domain Immutables
+- Keep project-specific constraints stable unless an ADR supersedes them.
+- Reference ADRs before proposing architectural changes.
 
+### SWIPE-Specific Anchors
+- ADR-015 (if applicable) is **binding**; changes require a new ADR.
+- Testing cadence: focused tests during dev; full suite pre-push.
+- No local servers for MVP unless explicitly allowed in an ADR.
 
+## LLM Operating Rules
+- Prefer minimal, reviewable diffs; include rationale in PR.
+- Do not invent files/paths; consult repo tree first.
+- If a rule conflicts across docs, this file wins; file an issue to fix the conflict elsewhere.
 
-
-
-
-
+## Links
+- Process: `DEVELOPMENT-WORKFLOW.md`
+- Security: `SECURITY-GUIDELINES.md`
+- Testing: `TESTING-GUIDELINES.md`
+- ADR index: `docs/decisions/` or `adr/`

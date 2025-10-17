@@ -24,7 +24,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "type-check": "tsc --noEmit",
     "build:web": "expo export -p web",
-    "build": "npm run build:web"
+    "build": "npm run build:web",
+    "guardrails:check": "node scripts/guardrails-check.mjs"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
