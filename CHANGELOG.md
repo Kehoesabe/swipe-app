@@ -4,10 +4,10 @@
 - **Refined workflow policy:** Single-model Cursor configuration (Claude 4.5 Sonnet only) with protected-file double-approval and handoff requirements.
 - Cross-refs added in `ARCHITECTURE.md` and `FOUNDATION_SUMMARY.md`.
 - New guardrails appended to `.cursorrules`.
-- Expanded `AGENTS.md` responsibilities and SAF-specific best practices.
+- Expanded `AGENTS.md` responsibilities and SWIPE-specific best practices.
 
 ### Notes
-- This update does not change the SAF TDD process; it clarifies model roles and strengthens safety controls around diffs and environment files.
+- This update does not change the SWIPE TDD process; it clarifies model roles and strengthens safety controls around diffs and environment files.
 
 
 
@@ -155,6 +155,8 @@ git push origin v1.0.0
 
 [Unreleased]: https://github.com/yourcompany/swipe-app/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/yourcompany/swipe-app/releases/tag/v1.0.0
+
+
 
 
 

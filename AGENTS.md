@@ -23,7 +23,7 @@ This document helps AI assistants (and developers) avoid common pitfalls when wo
 
 ---
 
-## Common AI Mistakes → Best Practices (SAF-specific)
+## Common AI Mistakes → Best Practices (SWIPE-specific)
 
 - **Mistake:** Proposing multi-model Cursor setups.  
   **Do:** Assume **Claude 4.5 Sonnet only** in Cursor unless told otherwise.
@@ -535,6 +535,8 @@ Before suggesting code, verify:
 ---
 
 **Remember: The best code is code that doesn't need to be written. Always ask if the complexity is truly necessary.**
+
+
 
 
 

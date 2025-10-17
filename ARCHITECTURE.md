@@ -728,10 +728,11 @@ GitHub   EAS    App Store
 
 - **Model Configuration & Guardrails:** See `DEVELOPMENT_WORKFLOW.md` (top section) for the single-model Cursor policy (Claude 4.5 Sonnet), protected files, and handoff rules.
 - **AI Operating Rules for Editors:** See `.cursorrules` for in-IDE enforcement details.
-- **LLM Best Practices & Anti-Patterns:** See `AGENTS.md` for SAF-specific do’s/don’ts and minimal-diff expectations.
+- **LLM Best Practices & Anti-Patterns:** See `AGENTS.md` for SWIPE-specific do’s/don’ts and minimal-diff expectations.
 
 
 **Last Updated**: October 2, 2025
+
 
 
 
